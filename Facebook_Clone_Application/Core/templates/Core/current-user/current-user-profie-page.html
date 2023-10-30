@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>{{ user_profile.user.first_name }} {{ user_profile.user.last_name }}</title>
+<style>
+    .image {
+        max-width: 500px;
+        max-height: 800px;
+    }
+    #img{
+        /* Define the width and height of the circular image container */
+        width: 28%;
+        height: 28%;
+        /* Set the border-radius to 50% to make the image circular */
+        border-radius: 50%;
+        /* Optional: Add a border to the circular image */
+        border: 20px solid white;
+        overflow: hidden;
+        clip-path: circle(50% at 50% 50%);
+        /* Prevent the image from being stretched or skewed */
+        object-fit: cover;
+  }
+</style>
+{% endblock %}
+{% block body %}
+{% include "navbar.html" %}
+<div class="container text-center">
+    {% if user_profile %}
+    {% if user_profile.image %}
+        <img id="img" src="{{ user_profile.image.url }}" alt="User Image">
+    {% else %}
+        <p>No profile image available.</p>
+    {% endif %}
+    <h2>{{ user_profile.fname }} {{ user_profile.lname }}</h2><br>
+    <p><strong>City:</strong> {{ user_profile.city }}</p>
+    <p><strong>Country:</strong> {{ user_profile.country }}</p>
+    <a class="btn" href="{% url 'create_user_post' user_profile.slug user_profile.id %}"><button class="btn btn-outline-success">Upload a Post</button></a>
+    <a class="btn" href="{% url 'create_blog' user_profile.slug user_profile.id %}"><button class="btn btn-outline-primary">Upload a blog</button></a>
+    <a class="btn" href="{% url 'current_user_posts' user_profile.slug user_profile.id %}"><button class="btn btn-outline-success">My Posts</button></a>
+    <a class="btn" href="{% url 'current_user_blogs' user_profile.slug user_profile.id %}"><button class="btn btn-outline-success">My Blogs</button></a>
+    {% else %}
+    <p>No profile found for the current user.</p>
+    {% endif %}
+</div>
+{% endblock %}
