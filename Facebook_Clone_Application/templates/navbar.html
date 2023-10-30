@@ -13,7 +13,7 @@
             <a class="nav-link" href="{% url 'current_user_profile' %}">My Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">Blogs</a>
+            <a class="nav-link" href="{% url 'all_blogs' %}">Blogs</a>
           </li>
           {% if user.is_authenticated %}
           <li class='nav-item'><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>

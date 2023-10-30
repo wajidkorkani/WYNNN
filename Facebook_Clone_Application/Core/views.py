@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView
+from .forms import CommentForm, ReplyForm
 # Create your views here.
 def home(request):
     posts = UserPost.objects.all().order_by('-time_stamp')
@@ -64,5 +65,82 @@ def current_user_posts(request, slug, pk):
     template = 'Core/current-user/current_user_posts.html'
     context = {
         'posts': posts
+        }
+    return render(request, template, context)
+
+
+# Blog Section
+# All blog views are here 
+class Create_Blog(CreateView):
+    model = Blog
+    template_name = 'Core/current-user/Create_Blog.html'
+    success_url = '/home/'
+    fields = ['image', 'title', 'category','text']
+    def form_valid(self, form):
+        # Automatically set the user field to the currently logged-in user
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+def all_blogs(request):
+    blogs = Blog.objects.all().order_by('-time_stamp')
+    template = 'Core/current-user/all_blogs.html'
+    context = {
+        'blogs': blogs
+    }
+    return render(request, template, context)
+
+def blog_about_page(request, pk):
+    blog = get_object_or_404(Blog, id=pk)
+    profile = Blog.objects.get(id=pk)
+    comment = BlogComment.objects.filter(blog__id=profile.id)
+    template = 'Core/current-user/blog_about_page.html'
+    context = {
+        'blog': blog, 
+        'comments': comment
+        }
+    return render(request, template, context)
+
+def blog_comment_about_page(request, pk):
+    comment = get_object_or_404(BlogComment, id=pk)
+    reply = BlogCommentReply.objects.filter(blog_comment__id=comment.id)
+    template = 'Core/current-user/blog_comment_reply.html'
+    context = {
+        'comment': comment,
+        'reply': reply
+    }
+    return render(request, template, context)
+
+def submit_blog_review(request, blog_id):
+    url = request.META.get('HTTP_REFERER')
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            data = BlogComment()
+            data.comment = form.cleaned_data['comment']
+            data.ip = request.META.get('REMOTE_ADDR')
+            data.blog_id = blog_id
+            data.user_id = request.user.id
+            data.save()
+            return redirect(url)
+
+def submit_comment_reply(request, comment_id):
+    url = request.META.get('HTTP_REFERER')
+    if request.method == 'POST':
+        form = ReplyForm(request.POST)
+        if form.is_valid():
+            data = BlogCommentReply()
+            data.reply = form.cleaned_data['reply']
+            data.ip = request.META.get('REMOTE_ADDR')
+            data.blog_comment_id = comment_id
+            data.user_id = request.user.id
+            data.save()
+            return redirect(url)
+
+def current_user_blogs(request, slug, pk):
+    profile = get_object_or_404(UserProfile, slug=slug, id=pk)
+    blog = Blog.objects.filter(user=profile.user).order_by('-time_stamp')
+    template = 'Core/current-user/current_user_blogs.html'
+    context = {
+        'blogs':blog
         }
     return render(request, template, context)
