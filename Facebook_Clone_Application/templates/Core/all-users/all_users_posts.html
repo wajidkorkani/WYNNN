@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>{{ profile.user.fname }}</title>
+<style>
+    .image {
+        max-width: 500px;
+        max-height: 800px;
+    }
+    #img{
+        /* Define the width and height of the circular image container */
+        width: 28%;
+        height: 28%;
+        /* Set the border-radius to 50% to make the image circular */
+        border-radius: 50%;
+        /* Optional: Add a border to the circular image */
+        border: 20px solid white;
+        overflow: hidden;
+        clip-path: circle(50% at 50% 50%);
+        /* Prevent the image from being stretched or skewed */
+        object-fit: cover;
+  }
+</style>
+{% endblock %}
+{% block body %}
+{% include "navbar.html" %}
+<div class="container text-center">
+    {% if posts %}
+    {% for post in posts %}
+    <strong>{{ post.time_stamp }}</strong>
+    {% if post.capution %}
+    <p>{{ post.capution }}</p>
+    {% endif %}
+    {% if post.image %}
+    <img class='image' src="{{ post.image.url }}">
+    {% endif %}
+    <br><br>
+    {% if user in post.likes.all %}
+    <p>{{ post.likes.count }}</p> <a href="{% url 'post_likes' post.id %}">Unlike</a>
+    {% else %}
+    <p>{{ post.likes.count }}</p> <a href="{% url 'post_likes' post.id %}">Like</a>
+    {% endif %}
+    <br><br><hr><br><br>
+    {% endfor %}
+    {% else %}
+    <h1>No posts has been uploaded.</h1>
+    {% endif %}
+</div>
+{% endblock %}

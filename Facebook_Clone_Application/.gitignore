@@ -1,0 +1,21 @@
+
+# Database
+db.sqlite3
+
+# Python bytecode files
+__pycache__/
+*.pyc
+
+# Optimized Python files
+*.pyo
+*.pyd
+
+
+# Static and Media files (served separately)
+media/
+
+# IDE/Editor specific files
+
+# Dependency management files
+requirements.txt
+Pipfile.lock

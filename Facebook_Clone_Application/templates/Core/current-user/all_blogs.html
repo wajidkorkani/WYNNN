@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Story Book | Blogs</title>
+<style>
+    .image {
+      width: 300px;
+    }
+
+    /* #searching{
+      margin-left: 750%;
+    } */
+    /* #nav{
+      margin-left: 4%;
+    } */
+    #circular {
+      /* Define the width and height of the circular image container */
+      width: 30px;
+      height: 30px;
+      /* Set the border-radius to 50% to make the image circular */
+      border-radius: 50%;
+      /* Optional: Add a border to the circular image with a gradient effect */
+      border: 3px solid rgb(77, 206, 84);
+      /* overflow: hidden; */
+      /* Prevent the image from being stretched or skewed */
+      object-fit: cover;
+    }
+    #id:hover{
+     background-color:rgb(228, 231, 228);
+    }
+    #id:hover{
+    background-color:rgb(228, 231, 228);
+    }
+    #image{
+      max-width: 700px;
+    }
+    #div{
+      text-align: center;
+    }
+  </style>
+{% endblock %}
+{% block body %}
+{% include "navbar.html" %}
+{% for blog in blogs %}
+<br>
+<div class="container" id="div">
+  <strong>{{ blog.user.first_name }} {{ blog.user.last_name }}</strong>
+  <br>
+  <a href="{% url 'blog_about_page' blog.id %}" class="btn">
+  {% if blog.image %}
+  <img id="image" src="{{ blog.image.url }}">
+  {% endif %}
+  <h1>{{ blog.title }}</h1>
+  <p>{{ blog.time_stamp }}</p>
+  </a>
+  <br>
+  <hr>
+  <br>
+  <br>
+</div>
+{% endfor %}
+{% endblock %}
