@@ -15,7 +15,6 @@ class UserProfile(models.Model):
     lname = models.CharField(max_length=200)
     city = models.CharField(max_length=200)
     country = models.CharField(max_length=200)
-    follow = models.ManyToManyField(User, related_name="follow", null=True)
     time_stamp = models.DateTimeField(auto_now=True)
     slug = models.SlugField(default='save')
     def save(self, *args, **kwargs):

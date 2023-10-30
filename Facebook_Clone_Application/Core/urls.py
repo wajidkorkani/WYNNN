@@ -22,4 +22,13 @@ urlpatterns = [
     path('comment/<int:pk>', blog_comment_about_page, name='blog_comment_about_page'),
     path('comment/<int:comment_id>/reply', submit_comment_reply, name='submit_comment_reply'),
     path('<slug:slug>/blogs/<int:pk>/', current_user_blogs, name='current_user_blogs'),
+
+    # All users urls section 
+    path('<slug:slug>/<int:pk>/blogs/', all_users_blogs, name='all_users_blogs'),
+    path('<slug:slug>/<int:pk>/posts/', all_users_posts, name='all_users_posts'),
+    path('all-users/<int:pk>/profile/page', all_users_profile_page, name='all_users_profile_page'),
+
+    # Searchbar url 
+    path('search/', searchbar, name='searchbar'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

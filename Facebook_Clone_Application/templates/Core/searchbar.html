@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Story Book | Search Results</title>
+{% endblock%}
+{% block body %}
+
+{% include "navbar.html" %}
+
+{% for search in user_fname%}
+  <div style="text-align: center;">
+    <a class='btn' href="{% url 'all_users_profile_page' search.id %}"><h1>{{ search.user.first_name }} {{ search.user.last_name }}</h1></a>
+      {% if search.image %}
+      <br>
+      <img style="max-width:100px" src="{{ search.image.url }}">
+      {% endif %}
+      <h1>{{ search.user.fname }} {{ search.user.lname }}</h1>
+  </div>
+{% endfor %}
+
+{% for search in users%}
+<div style="text-align: center;">
+    <a class='btn' href="{% url 'all_users_profile_page' search.id %}"><h1>{{ search.user.first_name }} {{ search.user.last_name }}</h1></a>
+    {% if search.image %}
+    <br>
+    <img style='max-width : 100px;' src="{{ search.image.url }}">
+    {% endif %}
+    <h1>{{ search.user.fname }} {{ search.user.lname }}</h1>
+</div>
+{% endfor %}
+
+{% for search in posts %}
+<div style="text-align: center;">
+    <h1>{{ search.user }}</h1>
+    <p>{{ search.capution }}</p>
+    <strike>{{ search.time_stamp }}</strike>
+    {% if search.image %}
+    <br>
+    <img src="{{ search.image.url }}">
+    <br><br>
+    {% endif %}
+    <br><br>
+</div>
+{% endfor %}
+
+{% for search in blog %}
+<div style="text-align: center;">
+    <h1>{{ search.user }}</h1>
+    <br>
+    <a href="{% url 'blog_about_page' search.id %}" class="btn">
+    <img src="{{ search.image.url }}">
+    <br>
+    <h1>{{ search.title }}</h1>
+    <strike>{{ search.time_stamp }}</strike>
+    </a>
+</div>
+{% endfor %}
+
+{% for search in blogs %}
+<div style="text-align: center;">
+    <h1>{{ search.user }}</h1>
+    <br>
+    <a href="{% url 'blog_about_page' search.id %}" class="btn">
+    <img src="{{ search.image.url }}">
+    <br>
+    <h1>{{ search.title }}</h1>
+    <strike>{{ search.time_stamp }}</strike>
+    </a>
+</div>
+{% endfor %}
+
+{% for search in blogs_category %}
+<div style="text-align: center;">
+    <h1>{{ search.user }}</h1>
+    <br>
+    <a class="btn" href="{% url 'blog_about_page' search.id %}">
+    <img src="{{ search.image.url }}">
+    <br>
+    <h1>{{ search.title }}</h1>
+    <strike>{{ search.time_stamp }}</strike>
+    </a>
+</div>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>{{ users.fname }} {{ users.lname }}</title>
+<style>
+    .image {
+        max-width: 500px;
+        max-height: 800px;
+    }
+    #img{
+        /* Define the width and height of the circular image container */
+        width: 28%;
+        height: 28%;
+        /* Set the border-radius to 50% to make the image circular */
+        border-radius: 50%;
+        /* Optional: Add a border to the circular image */
+        border: 20px solid white;
+        overflow: hidden;
+        clip-path: circle(50% at 50% 50%);
+        /* Prevent the image from being stretched or skewed */
+        object-fit: cover;
+  }
+</style>
+{% endblock %}
+{% block body %}
+{% include 'navbar.html' %}
+<div class="container text-center">
+    {% if users.image %}
+        <img id="img" src="{{ users.image.url }}" alt="User Image">
+    {% else %}
+        <p>No profile image available.</p>
+    {% endif %}
+    <h2>{{ users.fname }} {{ users.lname }}</h2>
+    <p><strong>City:</strong> {{ users.city }}</p>
+    <p><strong>Country:</strong> {{ users.country }}</p>
+    <a class="btn" href="{% url 'all_users_posts' users.slug users.id %}"><button class="btn btn-outline-success">Posts</button></a>
+    <a class="btn" href="{% url 'all_users_blogs' users.slug users.id %}"><button class="btn btn-outline-success">Blogs</button></a>
+</div>
+{% endblock %}
