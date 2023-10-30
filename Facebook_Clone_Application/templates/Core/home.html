@@ -4,4 +4,18 @@
 {% endblock  %}
 {% block body %}
 {% include "navbar.html" %}
+{% for post in posts %}
+<div class='container'>
+    <strong>{{ post.user.first_name }} {{ post.user.last_name }}</strong><br>
+    <img style="max-width:400px;" src="{{ post.image.url }}">
+    <p>{{ post.capution }}</p>
+    <p>{{ post.time_stamp }}</p>
+    {% if user in post.likes.all %}
+    <p>{{ post.likes.count }}</p> <a href="{% url 'post_likes' post.id %}">Unlike</a>
+    {% else %}
+    <p>{{ post.likes.count }}</p> <a href="{% url 'post_likes' post.id %}">Like</a>
+    {% endif %}
+    <br><br><hr><br>
+</div>
+{% endfor %}
 {% endblock  %}

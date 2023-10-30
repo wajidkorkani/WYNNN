@@ -28,7 +28,6 @@ class UserProfile(models.Model):
 class UserPost(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     image = models.ImageField(upload_to='media/', blank=True, null=True)
-    video = models.FileField(upload_to='media/videos', blank=True, null=True)
     capution = models.CharField(max_length=2000)
     likes = models.ManyToManyField(User, related_name="Post_likes", blank=True)
     time_stamp = models.DateTimeField(auto_now=True)
