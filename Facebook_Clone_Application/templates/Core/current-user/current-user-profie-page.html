@@ -26,9 +26,9 @@
 <div class="container text-center">
     {% if user_profile %}
     {% if user_profile.image %}
-        <img id="img" src="{{ user_profile.image.url }}" alt="User Image">
+        <img id="img" src="{{ user_profile.image.url }}">
     {% else %}
-        <p>No profile image available.</p>
+    <h2> Profile image does not exist. </h2>
     {% endif %}
     <h2>{{ user_profile.fname }} {{ user_profile.lname }}</h2><br>
     <p><strong>City:</strong> {{ user_profile.city }}</p>
