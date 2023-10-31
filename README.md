@@ -13,3 +13,7 @@
 * User can search for other users and after clicking on profile user will be redirected to the profile page of that user where user can chose to see posts and blogs of that user.
 * All posts are listed at home page and sorted by from new to old.
 * User can lilke and unlike to posts.
+
+
+# Tests 
+* Tests are not written of this application
