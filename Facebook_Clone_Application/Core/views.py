@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 from .forms import CommentForm, ReplyForm
 # Create your views here.
 
@@ -52,7 +52,7 @@ class Create_User_Post(CreateView):
     model = UserPost
     template_name = 'Core/current-user/Create_Post.html'
     success_url = '/home/'
-    fields = ['image', 'video', 'capution']
+    fields = ['image', 'capution']
     def form_valid(self, form):
         # Automatically set the user field to the currently logged-in user
         form.instance.user = self.request.user
@@ -95,7 +95,6 @@ class Create_Blog(CreateView):
         # Automatically set the user field to the currently logged-in user
         form.instance.user = self.request.user
         return super().form_valid(form)
-
 
 
 def all_blogs(request):
