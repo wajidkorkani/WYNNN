@@ -47,8 +47,11 @@
     <h1>{{ search.user }}</h1>
     <br>
     <a href="{% url 'blog_about_page' search.id %}" class="btn">
-    <img src="{{ search.image.url }}">
-    <br>
+    {% if search.image %}
+        <br>
+        <img src="{{ search.image.url }}">
+        <br><br>
+    {% endif %}
     <h1>{{ search.title }}</h1>
     <strike>{{ search.time_stamp }}</strike>
     </a>
@@ -60,7 +63,11 @@
     <h1>{{ search.user }}</h1>
     <br>
     <a href="{% url 'blog_about_page' search.id %}" class="btn">
-    <img src="{{ search.image.url }}">
+    {% if search.image %}
+        <br>
+        <img src="{{ search.image.url }}">
+        <br><br>
+    {% endif %}
     <br>
     <h1>{{ search.title }}</h1>
     <strike>{{ search.time_stamp }}</strike>
@@ -73,7 +80,11 @@
     <h1>{{ search.user }}</h1>
     <br>
     <a class="btn" href="{% url 'blog_about_page' search.id %}">
-    <img src="{{ search.image.url }}">
+    {% if search.image %}
+        <br>
+        <img src="{{ search.image.url }}">
+        <br><br>
+    {% endif %}
     <br>
     <h1>{{ search.title }}</h1>
     <strike>{{ search.time_stamp }}</strike>
