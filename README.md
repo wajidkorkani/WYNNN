@@ -1,8 +1,6 @@
 # Facebook-Clone-Application
 
 # Application on Internet
-* This is url of this application.
-* https://abdulwajidkorkani.pythonanywhere.com
 
 
 # About
