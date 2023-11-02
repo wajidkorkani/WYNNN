@@ -1,7 +1,5 @@
 # Facebook-Clone-Application
 
-# Application on Internet
-
 
 # About
 * This is a facebook clone application and using this application user will be able to create user account by signingup after that user will login and create profile and upload posts and blogs, comment on blogs, and reply on these comments.
