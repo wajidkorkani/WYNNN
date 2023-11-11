@@ -1,17 +1,64 @@
 {% extends 'base.html' %}
 {% block head %}
-<title>Story Book</title>
+<title>Story Book - Signup</title>
+<style>
+  .container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .signup-form {
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .signup-form button {
+    width: 100%;
+  }
+
+  .login-link {
+    margin-top: 10px;
+  }
+
+  .signup-form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+</style>
 {% endblock %}
 {% block body %}
-<div class="container" style="text-align:center;">
-  <form method="POST">
+<br>
+<br>
+<div class="container">
+  <form method="POST" class="signup-form">
     {% csrf_token %}
-    
-    {{ form }}
-    
-    <button type="submit" class="btn btn-outline-success">Submit</button>
+
+    <label for="{{ form.username.id_for_label }}">Username:</label>
+    {{ form.username }}
+
+    <label for="{{ form.first_name.id_for_label }}">First Name:</label>
+    {{ form.first_name }}
+
+    <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
+    {{ form.last_name }}
+
+    <label for="{{ form.password1.id_for_label }}">Password:</label>
+    {{ form.password1 }}
+
+    <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
+    {{ form.password2 }}
+
+    <button type="submit" class="btn btn-success">Sign Up</button>
   </form>
-  
-  <p>Already have an account? <a href="{% url 'login' %}"><button class="btn btn-outline-primary">Login</button></a></p>
+
+  <p class="login-link">Already have an account? <a href="{% url 'login' %}" class="btn btn-primary">Login</a></p>
 </div>
 {% endblock %}

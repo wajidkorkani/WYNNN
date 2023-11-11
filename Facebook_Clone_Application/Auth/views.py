@@ -18,14 +18,14 @@ def Registration(request):
             request.session['signup_username'] = form.cleaned_data['username']
             request.session['signup_fname'] = form.cleaned_data['first_name']
             request.session['signup_lname'] = form.cleaned_data['last_name']
-            request.session['signup_password'] = form.cleaned_data['password']
+            request.session['signup_password'] = form.cleaned_data['password1']
             return redirect('verify_otp')
     else:
         form = RegistrationForm()
     template = 'Auth/signup.html'
     context = {'form':form}
     return render(request, template, context)
-            
+
 
 def verify_otp(request):
     if request.method == 'POST':

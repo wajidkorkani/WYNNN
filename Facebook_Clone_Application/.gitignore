@@ -1,0 +1,8 @@
+# Database files
+db.sqlite3
+
+# Media files
+media/
+
+# Test files
+test.py

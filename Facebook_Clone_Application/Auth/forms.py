@@ -6,4 +6,4 @@ class RegistrationForm(UserCreationForm):
     last_name = forms.CharField(max_length=50)
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'password')
+        fields = ('username', 'first_name', 'last_name')
