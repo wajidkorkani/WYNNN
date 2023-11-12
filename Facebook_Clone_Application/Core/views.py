@@ -18,7 +18,7 @@ def home(request):
 
 
 # Current user section
-# Creating user profile 
+# Creating user profile
 class Create_User_Profile(LoginRequiredMixin, CreateView):
     model = UserProfile
     template_name = 'Core/current-user/Create_User_Profile.html'
@@ -30,7 +30,7 @@ class Create_User_Profile(LoginRequiredMixin, CreateView):
         form.instance.fname = self.request.user.first_name
         form.instance.lname = self.request.user.last_name
         return super().form_valid(form)
-    
+
 
 
 # Current user profile page
@@ -47,17 +47,17 @@ def current_user_profile(request):
 
 
 
-# Current user posts section 
+# Current user posts section
 class Create_User_Post(CreateView):
     model = UserPost
-    template_name = 'Core/current-user/Create_Post.html'
+    template_name = 'Core/current-user/create_cost.html'
     success_url = '/home/'
     fields = ['image', 'capution']
     def form_valid(self, form):
         # Automatically set the user field to the currently logged-in user
         form.instance.user = self.request.user
         return super().form_valid(form)
-    
+
 
 
 def post_likes(request, pk):
@@ -85,7 +85,7 @@ def current_user_posts(request, slug, pk):
 
 
 # Blog Section
-# All blog views are here 
+# All blog views are here
 class Create_Blog(CreateView):
     model = Blog
     template_name = 'Core/current-user/Create_Blog.html'
@@ -113,7 +113,7 @@ def blog_about_page(request, pk):
     comment = BlogComment.objects.filter(blog__id=profile.id)
     template = 'Core/current-user/blog_about_page.html'
     context = {
-        'blog': blog, 
+        'blog': blog,
         'comments': comment
         }
     return render(request, template, context)
@@ -159,7 +159,7 @@ def submit_comment_reply(request, comment_id):
             data.user_id = request.user.id
             data.save()
             return redirect(url)
-        
+
 
 
 def current_user_blogs(request, slug, pk):
@@ -183,18 +183,18 @@ def searchbar(request):
     blogs_category = Blog.objects.filter(category__icontains=searched)
     template = 'Core/searchbar.html'
     context = {
-        'users':users, 
-        'user_fname':user_fname, 
-        'posts':posts, 
-        'blog':blog, 
-        'blogs':blogs, 
+        'users':users,
+        'user_fname':user_fname,
+        'posts':posts,
+        'blog':blog,
+        'blogs':blogs,
         'blogs_category': blogs_category}
     return render(request, template, context)
 
 
 
 # This is all users section
-# All users profile page 
+# All users profile page
 def all_users_profile_page(request, pk):
     profile = UserProfile.objects.get(id=pk)
     template = 'Core/all-users/all_users_profile_page.html'
@@ -208,7 +208,7 @@ def all_users_profile_page(request, pk):
 def all_users_posts(request, slug, pk):
     profile = get_object_or_404(UserProfile, slug=slug, id=pk)
     posts = UserPost.objects.filter(user=profile.user).order_by('-time_stamp')
-    template = 'core/all-users/all_users_posts.html'
+    template = 'Core/all-users/all_users_posts.html'
     context = {
         'posts': posts
     }
@@ -224,5 +224,3 @@ def all_users_blogs(request, slug, pk):
         'blogs':blog
     }
     return render(request, template, context)
-
-
