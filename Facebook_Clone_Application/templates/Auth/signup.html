@@ -32,6 +32,9 @@
     border: 1px solid #ddd;
     border-radius: 5px;
   }
+  p{
+    background-color:gray;
+  }
 </style>
 {% endblock %}
 {% block body %}
@@ -49,6 +52,9 @@
 
     <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
     {{ form.last_name }}
+    <br><br>
+
+    <p>Password Example = 'abcd/*02'</p>
 
     <label for="{{ form.password1.id_for_label }}">Password:</label>
     {{ form.password1 }}
