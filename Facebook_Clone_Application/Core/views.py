@@ -3,9 +3,10 @@ from .models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, UpdateView, DeleteView
 from .forms import CommentForm, ReplyForm
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-
+@login_required
 def home(request):
     posts = UserPost.objects.all().order_by('-time_stamp')
     template = 'Core/home.html'
@@ -19,6 +20,7 @@ def home(request):
 
 # Current user section
 # Creating user profile
+@login_required
 class Create_User_Profile(LoginRequiredMixin, CreateView):
     model = UserProfile
     template_name = 'Core/current-user/Create_User_Profile.html'
@@ -34,6 +36,7 @@ class Create_User_Profile(LoginRequiredMixin, CreateView):
 
 
 # Current user profile page
+@login_required
 def current_user_profile(request):
     try:
         profile = get_object_or_404(UserProfile, user=request.user)
@@ -48,6 +51,7 @@ def current_user_profile(request):
 
 
 # Current user posts section
+@login_required
 class Create_User_Post(CreateView):
     model = UserPost
     template_name = 'Core/current-user/create_post.html'
@@ -59,7 +63,7 @@ class Create_User_Post(CreateView):
         return super().form_valid(form)
 
 
-
+@login_required
 def post_likes(request, pk):
     url = request.META.get('HTTP_REFERER')
     post = UserPost.objects.filter(id=pk).first()
@@ -72,7 +76,7 @@ def post_likes(request, pk):
 
 
 
-
+@login_required
 def current_user_posts(request, slug, pk):
     profile = get_object_or_404(UserProfile, slug=slug, id=pk)
     posts = UserPost.objects.filter(user=profile.user).order_by('-time_stamp')
@@ -82,7 +86,7 @@ def current_user_posts(request, slug, pk):
         }
     return render(request, template, context)
 
-
+@login_required
 class Delete_Post(DeleteView):
     model = UserPost
     fields = '__all__'
@@ -94,6 +98,7 @@ class Delete_Post(DeleteView):
 
 # Blog Section
 # All blog views are here
+@login_required
 class Create_Blog(CreateView):
     model = Blog
     template_name = 'Core/current-user/Create_Blog.html'
@@ -104,7 +109,7 @@ class Create_Blog(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-
+@login_required
 def all_blogs(request):
     blogs = Blog.objects.all().order_by('-time_stamp')
     template = 'Core/current-user/all_blogs.html'
@@ -114,7 +119,7 @@ def all_blogs(request):
     return render(request, template, context)
 
 
-
+@login_required
 def blog_about_page(request, pk):
     blog = get_object_or_404(Blog, id=pk)
     profile = Blog.objects.get(id=pk)
@@ -127,7 +132,7 @@ def blog_about_page(request, pk):
     return render(request, template, context)
 
 
-
+@login_required
 def blog_comment_about_page(request, pk):
     comment = get_object_or_404(BlogComment, id=pk)
     reply = BlogCommentReply.objects.filter(blog_comment__id=comment.id)
@@ -139,7 +144,7 @@ def blog_comment_about_page(request, pk):
     return render(request, template, context)
 
 
-
+@login_required
 def submit_blog_review(request, blog_id):
     url = request.META.get('HTTP_REFERER')
     if request.method == 'POST':
@@ -154,7 +159,7 @@ def submit_blog_review(request, blog_id):
             return redirect(url)
 
 
-
+@login_required
 def submit_comment_reply(request, comment_id):
     url = request.META.get('HTTP_REFERER')
     if request.method == 'POST':
@@ -169,7 +174,7 @@ def submit_comment_reply(request, comment_id):
             return redirect(url)
 
 
-
+@login_required
 def current_user_blogs(request, slug, pk):
     profile = get_object_or_404(UserProfile, slug=slug, id=pk)
     blog = Blog.objects.filter(user=profile.user).order_by('-time_stamp')
@@ -178,7 +183,7 @@ def current_user_blogs(request, slug, pk):
         'blogs':blog
         }
     return render(request, template, context)
-
+@login_required
 class Delete_Blog(DeleteView):
     model = Blog
     fields = '__all__'
@@ -187,6 +192,7 @@ class Delete_Blog(DeleteView):
 
 
 # This is searchbar section
+@login_required
 def searchbar(request):
     searched = request.POST["searched"]
     users = UserProfile.objects.filter(lname__contains=searched)
@@ -209,6 +215,7 @@ def searchbar(request):
 
 # This is all users section
 # All users profile page
+@login_required
 def all_users_profile_page(request, pk):
     profile = UserProfile.objects.get(id=pk)
     template = 'Core/all-users/all_users_profile_page.html'
@@ -218,7 +225,7 @@ def all_users_profile_page(request, pk):
     return render(request, template, context)
 
 
-
+@login_required
 def all_users_posts(request, slug, pk):
     profile = get_object_or_404(UserProfile, slug=slug, id=pk)
     posts = UserPost.objects.filter(user=profile.user).order_by('-time_stamp')
@@ -229,7 +236,7 @@ def all_users_posts(request, slug, pk):
     return render(request, template, context)
 
 
-
+@login_required
 def all_users_blogs(request, slug, pk):
     profile = get_object_or_404(UserProfile, slug=slug, id=pk)
     blog = Blog.objects.filter(user=profile.user).order_by('-time_stamp')
