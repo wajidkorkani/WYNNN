@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block head %}
-<title>Create Profile</title>
+<title>Story Book</title>
 {% endblock %}
 {% block body %}
 <div class="container">
@@ -8,6 +8,6 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button class="btn btn-outline-success" type="submit">Submit</button>
-    </form>    
+    </form>
 </div>
 {% endblock %}

@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
-{% block head %}{% endblock %}
+{% block head %}
+<title>Story Book</title>
+{% endblock %}
 {% block body %}
 {% include 'navbar.html' %}
 <div class="container">
@@ -7,6 +9,6 @@
         {% csrf_token %}
         {{ form }}
         <button class="btn btn-outline-success" type="submit">Submit</button>
-    </form>    
+    </form>
 </div>
 {% endblock %}
