@@ -20,7 +20,6 @@ def home(request):
 
 # Current user section
 # Creating user profile
-@login_required
 class Create_User_Profile(LoginRequiredMixin, CreateView):
     model = UserProfile
     template_name = 'Core/current-user/Create_User_Profile.html'
@@ -51,7 +50,6 @@ def current_user_profile(request):
 
 
 # Current user posts section
-@login_required
 class Create_User_Post(CreateView):
     model = UserPost
     template_name = 'Core/current-user/create_post.html'
@@ -86,7 +84,7 @@ def current_user_posts(request, slug, pk):
         }
     return render(request, template, context)
 
-@login_required
+
 class Delete_Post(DeleteView):
     model = UserPost
     fields = '__all__'
@@ -98,7 +96,6 @@ class Delete_Post(DeleteView):
 
 # Blog Section
 # All blog views are here
-@login_required
 class Create_Blog(CreateView):
     model = Blog
     template_name = 'Core/current-user/Create_Blog.html'
