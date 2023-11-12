@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Create Profile</title>
+{% endblock %}
+{% block body %}
+{% include 'navbar.html' %}
+<div style="text-align:center; margin-top:200px" class="container">
+  <h2>Are you sure?</h2>
+  <br><br>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <button class="btn btn-outline-danger" type="submit">Delete</button>
+    </form>
+</div>
+{% endblock %}

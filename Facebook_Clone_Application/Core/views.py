@@ -50,7 +50,7 @@ def current_user_profile(request):
 # Current user posts section
 class Create_User_Post(CreateView):
     model = UserPost
-    template_name = 'Core/current-user/create_cost.html'
+    template_name = 'Core/current-user/create_post.html'
     success_url = '/home/'
     fields = ['image', 'capution']
     def form_valid(self, form):
@@ -81,6 +81,14 @@ def current_user_posts(request, slug, pk):
         'posts': posts
         }
     return render(request, template, context)
+
+
+class Delete_Post(DeleteView):
+    model = UserPost
+    fields = '__all__'
+    template_name = 'Core/current-user/delete_post.html'
+    success_url = '/home/'
+
 
 
 
@@ -170,6 +178,12 @@ def current_user_blogs(request, slug, pk):
         'blogs':blog
         }
     return render(request, template, context)
+
+class Delete_Blog(DeleteView):
+    model = Blog
+    fields = '__all__'
+    template_name = 'Core/current-user/blogs_delete.html'
+    success_url = '/home/'
 
 
 # This is searchbar section

@@ -25,14 +25,20 @@
 {% include "navbar.html" %}
 <div class="container text-center">
     {% if blogs %}
-    {% for post in blogs %}
-    <strong>{{ post.time_stamp }}</strong>
-    {% if post.capution %}
-    <p>{{ post.capution }}</p>
+    {% for blog in blogs %}
+    <a class="btn" href="{% url 'blog_about_page' blog.id %}">
+    <strong>{{ blog.time_stamp }}</strong>
+    <br>
+    {% if blog.capution %}
+    <p>{{ blog.capution }}</p>
     {% endif %}
-    {% if post.image %}
-    <img class='image' src="{{ post.image.url }}">
+    <br>
+    {% if blog.image %}
+    <img class='image' src="{{ blog.image.url }}">
     {% endif %}
+    </a>
+    <br><br>
+    <a href="{% url 'delete_blog' blog.id %}"><button class="btn btn-outline-danger">Delete</button></a>
     <br><br><hr><br><br>
     {% endfor %}
     {% else %}
