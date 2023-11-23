@@ -31,19 +31,6 @@ class UserPost(models.Model):
     likes = models.ManyToManyField(User, related_name="Post_likes", blank=True)
     time_stamp = models.DateTimeField(auto_now=True)
 
-class PostComment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    post = models.ForeignKey(UserPost, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='media/', null=True, blank=True)
-    text = models.CharField(max_length=12000)
-    time_stamp = models.DateTimeField(auto_now=True)
-
-class PostCommentReply(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    post_comment = models.ForeignKey(PostComment, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='media/', null=True, blank=True)
-    text = models.CharField(max_length=2000)
-    time_stamp = models.DateTimeField(auto_now=True)
 
 
 class Blog(models.Model):
