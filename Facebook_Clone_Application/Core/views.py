@@ -6,6 +6,7 @@ from .forms import CommentForm, ReplyForm
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+# This view is for landing page or home page 
 @login_required
 def home(request):
     posts = UserPost.objects.all().order_by('-time_stamp')
@@ -61,6 +62,7 @@ class Create_User_Post(CreateView):
         return super().form_valid(form)
 
 
+# This view is for to like any post uploaded by any user
 @login_required
 def post_likes(request, pk):
     url = request.META.get('HTTP_REFERER')
@@ -73,7 +75,7 @@ def post_likes(request, pk):
     return redirect(url)
 
 
-
+# This view is for current user posts
 @login_required
 def current_user_posts(request, slug, pk):
     profile = get_object_or_404(UserProfile, slug=slug, id=pk)
@@ -85,6 +87,7 @@ def current_user_posts(request, slug, pk):
     return render(request, template, context)
 
 
+# This view is for to delete own posts
 class Delete_Post(DeleteView):
     model = UserPost
     fields = '__all__'
@@ -94,7 +97,8 @@ class Delete_Post(DeleteView):
 
 
 
-# Blog Section
+# Blog Section Starts from here
+
 # All blog views are here
 class Create_Blog(CreateView):
     model = Blog
@@ -106,6 +110,8 @@ class Create_Blog(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+
+# This view is for all blogs
 @login_required
 def all_blogs(request):
     blogs = Blog.objects.all().order_by('-time_stamp')
@@ -116,6 +122,7 @@ def all_blogs(request):
     return render(request, template, context)
 
 
+# This view is for about page of the blogs
 @login_required
 def blog_about_page(request, pk):
     blog = get_object_or_404(Blog, id=pk)
@@ -129,6 +136,7 @@ def blog_about_page(request, pk):
     return render(request, template, context)
 
 
+# This view is where all replies will be displayed with the comment in on which users replied 
 @login_required
 def blog_comment_about_page(request, pk):
     comment = get_object_or_404(BlogComment, id=pk)
@@ -141,6 +149,7 @@ def blog_comment_about_page(request, pk):
     return render(request, template, context)
 
 
+# This view is for to add review or comment on the blogs
 @login_required
 def submit_blog_review(request, blog_id):
     url = request.META.get('HTTP_REFERER')
@@ -156,6 +165,7 @@ def submit_blog_review(request, blog_id):
             return redirect(url)
 
 
+# This view is for to reply on comments
 @login_required
 def submit_comment_reply(request, comment_id):
     url = request.META.get('HTTP_REFERER')
@@ -171,6 +181,7 @@ def submit_comment_reply(request, comment_id):
             return redirect(url)
 
 
+# This view is where all blogs will be displayed uploaded by the current user
 @login_required
 def current_user_blogs(request, slug, pk):
     profile = get_object_or_404(UserProfile, slug=slug, id=pk)
@@ -180,6 +191,8 @@ def current_user_blogs(request, slug, pk):
         'blogs':blog
         }
     return render(request, template, context)
+
+# This view is to delete own blogs
 @login_required
 class Delete_Blog(DeleteView):
     model = Blog
@@ -189,6 +202,7 @@ class Delete_Blog(DeleteView):
 
 
 # This is searchbar section
+
 @login_required
 def searchbar(request):
     searched = request.POST["searched"]
@@ -210,8 +224,9 @@ def searchbar(request):
 
 
 
-# This is all users section
-# All users profile page
+# Section all users starts from here
+
+# This view is where all users profiles will be display
 @login_required
 def all_users_profile_page(request, pk):
     profile = UserProfile.objects.get(id=pk)
@@ -222,6 +237,7 @@ def all_users_profile_page(request, pk):
     return render(request, template, context)
 
 
+# This view is where all users posts will be display
 @login_required
 def all_users_posts(request, slug, pk):
     profile = get_object_or_404(UserProfile, slug=slug, id=pk)
@@ -233,6 +249,7 @@ def all_users_posts(request, slug, pk):
     return render(request, template, context)
 
 
+# This view is where all users blogs will be display
 @login_required
 def all_users_blogs(request, slug, pk):
     profile = get_object_or_404(UserProfile, slug=slug, id=pk)
