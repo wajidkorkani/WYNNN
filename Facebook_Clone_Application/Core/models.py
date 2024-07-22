@@ -1,7 +1,5 @@
 from email.mime import image
-from re import T
 from sqlite3 import Timestamp
-from turtle import up
 from unicodedata import category
 from django.db import models
 from django.utils.text import slugify
