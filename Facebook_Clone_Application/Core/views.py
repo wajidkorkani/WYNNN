@@ -193,7 +193,6 @@ def current_user_blogs(request, slug, pk):
     return render(request, template, context)
 
 # This view is to delete own blogs
-@login_required
 class Delete_Blog(DeleteView):
     model = Blog
     fields = '__all__'
