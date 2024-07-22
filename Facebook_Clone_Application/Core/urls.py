@@ -16,7 +16,7 @@ urlpatterns = [
     path('me/', current_user_profile, name='current_user_profile'),
 
     # Blog urls section
-    path('<slug:slug>/blog/<int:pk>/', Create_Blog.as_view(), name='create_blog'),
+    path('blog/<int:pk>/', Create_Blog.as_view(), name='create_blog'),
     path('blogs/', all_blogs, name='all_blogs'),
     path('<int:pk>/blog/', blog_about_page, name='blog_about_page'),
     path('submit_review/<int:blog_id>/', submit_blog_review, name='submit_review'),
