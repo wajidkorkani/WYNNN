@@ -43,6 +43,7 @@
     {% endfor %}
     {% else %}
     <h1>You didn't upload any post yet.</h1>
+    <a class="btn" href="{% url 'create_blog' request.user.id %}"><button class="btn btn-outline-primary">Create blog</button></a>
     {% endif %}
 </div>
 {% endblock %}
