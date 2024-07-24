@@ -13,7 +13,7 @@ urlpatterns = [
 
     # Profile section
     path('create-user-profile/', Create_User_Profile.as_view(), name='Create_User_Profile'),
-    path('changeImage', Change_User_Profile_Image.as_view(), name="change_image"),
+    path('changeImage<int:pk>', Change_User_Profile_Image.as_view(), name="change_image"),
     path('me/', current_user_profile, name='current_user_profile'),
 
     # Blog urls section
