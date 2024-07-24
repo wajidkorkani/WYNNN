@@ -33,19 +33,12 @@ class Create_User_Profile(LoginRequiredMixin, CreateView):
         form.instance.lname = self.request.user.last_name
         return super().form_valid(form)
 
-
+# To Change the profile image 
 class Change_User_Profile_Image(LoginRequiredMixin, UpdateView):
     model = UserProfile
     template_name = 'Core/current-user/Change_User_Profile_Image.html'
     success_url = '/home/'
     fields = ['image']
-    # def form_valid(self, form):
-    #     # Automatically set the user field to the currently logged-in user
-    #     form.instance.user = self.request.user
-    #     form.instance.fname = self.request.user.first_name
-    #     form.instance.lname = self.request.user.last_name
-    #     return super().form_valid(form)
-
 
 # Current user profile page
 @login_required
