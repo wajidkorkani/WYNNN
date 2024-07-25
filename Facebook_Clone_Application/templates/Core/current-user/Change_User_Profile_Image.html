@@ -3,11 +3,14 @@
 <title>Change Profile Image</title>
 {% endblock %}
 {% block body %}
-<div class="container">
+<div class="container" style="display: flex; justify-content: center; align-items: center; margin-top: 60px;">
     <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="btn btn-outline-success" type="submit">Submit</button>
-    </form>    
+        <div class="mb-3">
+            {% csrf_token %}
+          <label for="exampleInputEmail1" class="form-label">Select an image</label>
+          <input name="image" type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
 </div>
 {% endblock %}
