@@ -6,7 +6,7 @@ urlpatterns = [
 
     # Post urls section
     path('home/', home, name='home'),
-    path('<slug:slug>/post/<int:pk>/', Create_User_Post.as_view(), name='create_user_post'),
+    path('upload$post/<int:pk>/', Create_User_Post.as_view(), name='create_user_post'),
     path('<int:pk>/post/like/', post_likes, name='post_likes'),
     path('<slug:slug>/posts/<int:pk>/', current_user_posts, name='current_user_posts'),
     path('delete-post/<int:pk>/', Delete_Post.as_view(), name='delete_post'),
