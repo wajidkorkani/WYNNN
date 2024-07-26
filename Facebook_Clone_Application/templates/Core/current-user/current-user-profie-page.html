@@ -34,7 +34,7 @@
     <p><strong>City:</strong> {{ user_profile.city }}</p>
     <p><strong>Country:</strong> {{ user_profile.country }}</p>
     <a class="btn" href="{% url 'change_image' user_profile.id %}"><button class="btn btn-outline-primary">Change profile image</button></a>
-    <a class="btn" href="{% url 'create_user_post' user_profile.slug user_profile.id %}"><button class="btn btn-outline-success">Upload a Post</button></a>
+    <a class="btn" href="{% url 'create_user_post' user_profile.id %}"><button class="btn btn-outline-success">Upload a Post</button></a>
     <a class="btn" href="{% url 'create_blog' user_profile.id %}"><button class="btn btn-outline-primary">Upload a blog</button></a>
     <a class="btn" href="{% url 'current_user_posts' user_profile.slug user_profile.id %}"><button class="btn btn-outline-success">My Posts</button></a>
     <a class="btn" href="{% url 'current_user_blogs' user_profile.slug user_profile.id %}"><button class="btn btn-outline-success">My Blogs</button></a>
