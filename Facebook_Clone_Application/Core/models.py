@@ -6,7 +6,7 @@ from django.utils.text import slugify
 from django.contrib.auth.models import User
 # Create your models here.
 class UserProfile(models.Model):
-    image = models.ImageField(upload_to='media/', default='C:/Users/Jawad/ERMAPP/media/media/blank.jpg')
+    image = models.ImageField(upload_to='media/', null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     email = models.EmailField()
     fname = models.CharField(max_length=200)
@@ -24,6 +24,7 @@ class UserProfile(models.Model):
 
 class UserPost(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     image = models.ImageField(upload_to='media/', blank=True, null=True)
     capution = models.CharField(max_length=2000)
     likes = models.ManyToManyField(User, related_name="Post_likes", blank=True)
