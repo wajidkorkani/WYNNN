@@ -6,10 +6,10 @@
 {% include "navbar.html" %}
 {% for post in posts %}
 <div class='container'>
-    <strong>{{ post.user.first_name }} {{ post.user.last_name }}</strong><br>
-    <img style="max-width:400px;" src="{{ post.image.url }}">
+    <div style="margin-top: 20px;"> {% if post.profile.image %}<img style="width: 60px; height: 60px; border-radius: 50%;" src="{{ post.profile.image.url }}"> {% endif %}<strong>{{ post.user.first_name }} {{ post.user.last_name }}</strong></div><br>
     <p>{{ post.capution }}</p>
     <p>{{ post.time_stamp }}</p>
+    <img style="max-width:400px;" src="{{ post.image.url }}">
     {% if user in post.likes.all %}
     <p>{{ post.likes.count }}</p> <a href="{% url 'post_likes' post.id %}">Unlike</a>
     {% else %}

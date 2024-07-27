@@ -39,6 +39,10 @@ class Change_User_Profile_Image(LoginRequiredMixin, UpdateView):
     template_name = 'Core/current-user/Change_User_Profile_Image.html'
     success_url = '/home/'
     fields = ['image']
+    def form_valid(self, form):
+        # Automatically set the user field to the currently logged-in user
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 # Current user profile page
 @login_required
@@ -59,11 +63,13 @@ def current_user_profile(request):
 class Create_User_Post(CreateView):
     model = UserPost
     template_name = 'Core/current-user/create_post.html'
-    success_url = '/home/'
+    success_url = '/me/'
     fields = ['image', 'capution']
     def form_valid(self, form):
         # Automatically set the user field to the currently logged-in user
         form.instance.user = self.request.user
+        productID = self.kwargs.get('pk')
+        form.instance.profile = get_object_or_404(UserProfile, id=productID)
         return super().form_valid(form)
 
 
