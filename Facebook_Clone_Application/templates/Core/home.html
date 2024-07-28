@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block head %}
 <title>Story Book</title>
 {% endblock  %}
@@ -11,9 +12,9 @@
     <p>{{ post.time_stamp }}</p>
     <img style="max-width:400px;" src="{{ post.image.url }}">
     {% if user in post.likes.all %}
-    <p>{{ post.likes.count }}</p> <a href="{% url 'post_likes' post.id %}">Unlike</a>
+        <div style="display: flex;"><p>Likes {{ post.likes.count }} </p> <a href="{% url 'post_likes' post.id %}"><img style="width: 40px;" src="{% static 'images/like.png' %}" alt="Unlike"></a></div>
     {% else %}
-    <p>{{ post.likes.count }}</p> <a href="{% url 'post_likes' post.id %}">Like</a>
+        <div style="display: flex;"><p>Likes {{ post.likes.count }} </p> <a href="{% url 'post_likes' post.id %}"><img style="width: 40px;" src="{% static 'images/unlike.png' %}" alt="Like"></a></div>
     {% endif %}
     <br><br><hr><br>
 </div>
