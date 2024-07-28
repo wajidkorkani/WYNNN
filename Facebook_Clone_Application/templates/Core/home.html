@@ -7,7 +7,11 @@
 {% include "navbar.html" %}
 {% for post in posts %}
 <div class='container'>
-    <div style="margin-top: 20px;"> {% if post.profile.image %}<img style="width: 60px; height: 60px; border-radius: 50%;" src="{{ post.profile.image.url }}"> {% endif %}<strong>{{ post.user.first_name }} {{ post.user.last_name }}</strong></div><br>
+    {% if request.user.id == post.user.id %}
+    <div style="margin-top: 20px;"> {% if post.profile.image %}<a href="{% url 'current_user_profile' %}" style="text-decoration: none; color: black;"><img style="width: 60px; height: 60px; border-radius: 50%;" src="{{ post.profile.image.url }}"></a>{% endif %}<a href="{% url 'current_user_profile' %}" style="text-decoration: none; color: black;"><strong>{{ post.user.first_name }} {{ post.user.last_name }}</strong></a></div><br>
+    {% else %}
+    <div style="margin-top: 20px;"> {% if post.profile.image %}<a href="{% url 'all_users_profile_page' post.profile.id %}" style="text-decoration: none; color: black;"><img style="width: 60px; height: 60px; border-radius: 50%;" src="{{ post.profile.image.url }}"></a>{% endif %}<a href="{% url 'all_users_profile_page' post.profile.id %}" style="text-decoration: none; color: black;"><strong>{{ post.user.first_name }} {{ post.user.last_name }}</strong></a></div><br>
+    {% endif %}
     <p>{{ post.capution }}</p>
     <p>{{ post.time_stamp }}</p>
     <img style="max-width:400px;" src="{{ post.image.url }}">
