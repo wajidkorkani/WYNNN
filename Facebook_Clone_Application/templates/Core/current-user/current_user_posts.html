@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block head %}
 <title>Story Book</title>
 <style>
@@ -6,7 +7,8 @@
         max-width: 500px;
         max-height: 800px;
     }
-    #img{
+
+    #img {
         /* Define the width and height of the circular image container */
         width: 28%;
         height: 28%;
@@ -18,7 +20,7 @@
         clip-path: circle(50% at 50% 50%);
         /* Prevent the image from being stretched or skewed */
         object-fit: cover;
-  }
+    }
 </style>
 {% endblock %}
 {% block body %}
@@ -33,9 +35,21 @@
     {% if post.image %}
     <img class='image' src="{{ post.image.url }}">
     {% endif %}
+    {% if user in post.likes.all %}
+    <div style="display: flex; margin: 0 auto; max-width: 200px;">
+        <p>Likes {{ post.likes.count }} </p> <a href="{% url 'post_likes' post.id %}"><img style="width: 40px;"
+                src="{% static 'images/like.png' %}" alt="Unlike"></a>
+    </div>
+    {% else %}
+    <div style="display: flex; margin: 0 auto; max-width: 200px;">
+        <p>Likes {{ post.likes.count }} </p> <a href="{% url 'post_likes' post.id %}"><img style="width: 40px;"
+                src="{% static 'images/unlike.png' %}" alt="Like"></a>
+    </div>
+    {% endif %}
     <br><br>
     <a href="{% url 'delete_post' post.id %}"><button class="btn btn-outline-danger">Delete</button></a>
-    <br><br><hr><br><br>
+    <br><br>
+    <hr><br><br>
     {% endfor %}
     {% else %}
     <h1>You didn't upload any post yet.</h1>
