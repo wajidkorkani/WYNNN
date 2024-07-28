@@ -32,7 +32,7 @@
     <h2>{{ users.fname }} {{ users.lname }}</h2>
     <p><strong>City:</strong> {{ users.city }}</p>
     <p><strong>Country:</strong> {{ users.country }}</p>
-    <a class="btn" href="{% url 'all_users_posts' users.slug users.id %}"><button class="btn btn-outline-success">Posts</button></a>
-    <a class="btn" href="{% url 'all_users_blogs' users.slug users.id %}"><button class="btn btn-outline-success">Blogs</button></a>
+    <a class="btn" href="{% url 'all_users_posts' users.slug users.id %}"><button class="btn btn-outline-dark">Posts</button></a>
+    <a class="btn" href="{% url 'all_users_blogs' users.slug users.id %}"><button class="btn btn-outline-dark">Blogs</button></a>
 </div>
 {% endblock %}
