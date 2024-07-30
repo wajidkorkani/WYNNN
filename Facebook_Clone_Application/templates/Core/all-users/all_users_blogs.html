@@ -30,7 +30,7 @@
     <br><hr><br>
     {% endfor %}
     {% else %}
-    <h1>You didn't upload any blog yet.</h1>
+    <h1>{{ profile.user.first_name }} {{ profile.user.last_name }} didn't upload any blog yet.</h1>
     {%endif%}
 </div>
 {% endblock %}

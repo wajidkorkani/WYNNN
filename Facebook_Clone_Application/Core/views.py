@@ -266,6 +266,7 @@ def all_users_blogs(request, slug, pk):
     blog = Blog.objects.filter(user=profile.user).order_by('-time_stamp')
     template = 'Core/all-users/all_users_blogs.html'
     context = {
-        'blogs':blog
+        'blogs':blog,
+        'profile':profile
     }
     return render(request, template, context)
