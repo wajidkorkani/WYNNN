@@ -21,9 +21,36 @@
         object-fit: cover;
     }
 
-    @media(min-width:767px) {
+
+    @media(min-width:768px) {
         #container {
             margin-top: 20px;
+            min-width: 100%;
+            min-height: 100%;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+        }
+
+        #imageBox {
+            grid-column-start: span 6;
+        }
+
+        #infoBox {
+            grid-column-start: span 6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #img {
+            width: 300px;
+            height: 300px;
+        }
+    }
+
+    @media(min-width:1024px) {
+        #container {
+            margin-top: 40px;
             min-width: 100%;
             min-height: 100%;
             display: grid;
