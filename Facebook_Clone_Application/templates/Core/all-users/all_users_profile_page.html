@@ -6,10 +6,11 @@
         max-width: 500px;
         max-height: 800px;
     }
-    #img{
+
+    #img {
         /* Define the width and height of the circular image container */
-        width: 28%;
-        height: 28%;
+        width: 260px;
+        height: 260px;
         /* Set the border-radius to 50% to make the image circular */
         border-radius: 50%;
         /* Optional: Add a border to the circular image */
@@ -18,21 +19,82 @@
         clip-path: circle(50% at 50% 50%);
         /* Prevent the image from being stretched or skewed */
         object-fit: cover;
-  }
+    }
+
+
+    @media(min-width:768px) {
+        #container {
+            margin-top: 20px;
+            min-width: 100%;
+            min-height: 100%;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+        }
+
+        #imageBox {
+            grid-column-start: span 6;
+        }
+
+        #infoBox {
+            grid-column-start: span 6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #img {
+            width: 300px;
+            height: 300px;
+        }
+    }
+
+    @media(min-width:1024px) {
+        #container {
+            margin-top: 40px;
+            min-width: 100%;
+            min-height: 100%;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+        }
+
+        #imageBox {
+            grid-column-start: span 6;
+        }
+
+        #infoBox {
+            grid-column-start: span 6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #img {
+            width: 500px;
+            height: 500px;
+        }
+    }
 </style>
 {% endblock %}
 {% block body %}
 {% include 'navbar.html' %}
-<div class="container text-center">
-    {% if users.image %}
+<div id="container" class="container text-center">
+    <div id="imageBox">
+        {% if users.image %}
         <img id="img" src="{{ users.image.url }}" alt="User Image">
-    {% else %}
+        {% else %}
         <p>No profile image available.</p>
-    {% endif %}
-    <h2>{{ users.fname }} {{ users.lname }}</h2>
-    <p><strong>City:</strong> {{ users.city }}</p>
-    <p><strong>Country:</strong> {{ users.country }}</p>
-    <a class="btn" href="{% url 'all_users_posts' users.slug users.id %}"><button class="btn btn-outline-dark">Posts</button></a>
-    <a class="btn" href="{% url 'all_users_blogs' users.slug users.id %}"><button class="btn btn-outline-dark">Blogs</button></a>
+        {% endif %}
+    </div>
+    <div id="infoBox">
+        <div>
+            <h2>{{ users.fname }} {{ users.lname }}</h2>
+            <p><strong>City:</strong> {{ users.city }}</p>
+            <p><strong>Country:</strong> {{ users.country }}</p>
+            <a class="btn" href="{% url 'all_users_posts' users.slug users.id %}"><button
+                    class="btn btn-outline-dark">Posts</button></a>
+            <a class="btn" href="{% url 'all_users_blogs' users.slug users.id %}"><button
+                    class="btn btn-outline-dark">Blogs</button></a>
+        </div>
+    </div>
 </div>
 {% endblock %}
