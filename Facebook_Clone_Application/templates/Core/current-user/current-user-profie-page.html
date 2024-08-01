@@ -6,10 +6,11 @@
         max-width: 500px;
         max-height: 800px;
     }
-    #img{
+
+    #img {
         /* Define the width and height of the circular image container */
-        width: 28%;
-        height: 28%;
+        width: 260px;
+        height: 260px;
         /* Set the border-radius to 50% to make the image circular */
         border-radius: 50%;
         /* Optional: Add a border to the circular image */
@@ -18,26 +19,64 @@
         clip-path: circle(50% at 50% 50%);
         /* Prevent the image from being stretched or skewed */
         object-fit: cover;
-  }
+    }
+
+    @media(min-width:767px) {
+        #container {
+            margin-top: 20px;
+            min-width: 100%;
+            min-height: 100%;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+        }
+
+        #imageBox {
+            grid-column-start: span 6;
+        }
+
+        #infoBox {
+            grid-column-start: span 6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #img {
+            width: 500px;
+            height: 500px;
+        }
+    }
 </style>
 {% endblock %}
 {% block body %}
 {% include "navbar.html" %}
-<div class="container text-center">
+<div id="container" class="container text-center">
     {% if user_profile %}
-    {% if user_profile.image %}
+    <div id="imageBox">
+        {% if user_profile.image %}
         <img id="img" src="{{ user_profile.image.url }}">
-    {% else %}
-    <h2> Profile image does not exist. </h2>
-    {% endif %}
-    <h2>{{ user_profile.fname }} {{ user_profile.lname }}</h2><br>
-    <p><strong>City:</strong> {{ user_profile.city }}</p>
-    <p><strong>Country:</strong> {{ user_profile.country }}</p>
-    <a class="btn" href="{% url 'change_image' user_profile.id %}"><button class="btn btn-outline-dark">Change profile image</button></a>
-    <a class="btn" href="{% url 'create_user_post' user_profile.id %}"><button class="btn btn-outline-dark">Upload a Post</button></a>
-    <a class="btn" href="{% url 'create_blog' user_profile.id %}"><button class="btn btn-outline-dark">Upload a blog</button></a>
-    <a class="btn" href="{% url 'current_user_posts' user_profile.slug user_profile.id %}"><button class="btn btn-outline-dark">My Posts</button></a>
-    <a class="btn" href="{% url 'current_user_blogs' user_profile.slug user_profile.id %}"><button class="btn btn-outline-dark">My Blogs</button></a>
+        {% else %}
+        <h2> Profile image does not exist. </h2>
+        {% endif %}
+    </div>
+    <div id="infoBox">
+        <div id="miniInfoBox">
+            <h2>{{ user_profile.fname }} {{ user_profile.lname }}</h2><br>
+            <p><strong>City:</strong> {{ user_profile.city }}</p>
+            <p><strong>Country:</strong> {{ user_profile.country }}</p>
+            <a class="btn" href="{% url 'change_image' user_profile.id %}"><button class="btn btn-outline-dark">Change
+                    profile image</button></a>
+            <a class="btn" href="{% url 'create_user_post' user_profile.id %}"><button
+                    class="btn btn-outline-dark">Upload a
+                    Post</button></a>
+            <a class="btn" href="{% url 'create_blog' user_profile.id %}"><button class="btn btn-outline-dark">Upload a
+                    blog</button></a>
+            <a class="btn" href="{% url 'current_user_posts' user_profile.slug user_profile.id %}"><button
+                    class="btn btn-outline-dark">My Posts</button></a>
+            <a class="btn" href="{% url 'current_user_blogs' user_profile.slug user_profile.id %}"><button
+                    class="btn btn-outline-dark">My Blogs</button></a>
+        </div>
+    </div>
     {% else %}
     <p>No profile found for the current user.</p>
     {% endif %}
