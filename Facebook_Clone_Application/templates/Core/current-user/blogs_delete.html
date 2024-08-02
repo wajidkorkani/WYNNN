@@ -1,15 +1,20 @@
 {% extends 'base.html' %}
 {% block head %}
 <title>Story Book</title>
+<style>
+  #confirm{
+    font-size: 25px;
+  }
+</style>
 {% endblock %}
 {% block body %}
 {% include 'navbar.html' %}
 <div style="text-align:center; margin-top:200px" class="container">
-  <h2>Are you sure?</h2>
-  <br><br>
+  <p id="confirm">Are you sure?</p>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <button class="btn btn-outline-danger" type="submit">Delete</button>
+        <a href="{% url 'current_user_profile' %}" class="btn btn-outline-dark">Cancel</a>
+        <button class="btn btn-outline-dark" type="submit">Delete</button>
     </form>
 </div>
 {% endblock %}
