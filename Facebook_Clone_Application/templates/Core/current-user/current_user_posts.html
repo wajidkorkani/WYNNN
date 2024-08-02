@@ -26,6 +26,17 @@
         align-items: center;
         margin: 0 auto;
     }
+    #ownerImage{
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+    }
+    #userInfoBox{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+    }
 </style>
 {% endblock %}
 {% block body %}
@@ -33,12 +44,20 @@
 <div class="container text-center">
     {% if posts %}
     {% for post in posts %}
+    <div id="userInfoBox">
+        <img id="ownerImage" src="{{ post.profile.image.url }}" alt="Profile of the user who uploaded this post">
+        <div>
+            <strong>
+                {{ post.profile.user.first_name }} {{ post.profile.user.last_name }}
+            </strong>
+            <p>{{ post.time_stamp.date }}</p>
+        </div>
+    </div>
     <div id="infoContainer">
         <div>
             {% if post.capution %}
             <p id="postCaption">{{ post.capution }}</p>
             {% endif %}
-            <p>{{ post.time_stamp }}</p>
         </div>
         <div id="ltbox">
             <a href="{% url 'delete_post' post.id %}" class="btn btn-outline-dark"><svg xmlns="http://www.w3.org/2000/svg"
