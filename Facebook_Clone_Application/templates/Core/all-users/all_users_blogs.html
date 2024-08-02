@@ -43,13 +43,13 @@
     {% for blog in blogs %}
     <div id="container">
         <div id="ltd">
-                <a href="{% url 'all_users_profile_page' profile.id %}">
-                <img id="profileImage" src="{{ profile.image.url }}" alt="Profile image of the user who uploaded this blog.">
+                <a href="{% url 'all_users_profile_page' blog.profile.id %}">
+                <img id="profileImage" src="{{ blog.profile.image.url }}" alt="Profile image of the user who uploaded this blog.">
                 </a>
-                <a href="{% url 'all_users_profile_page' profile.id %}">
+                <a href="{% url 'all_users_profile_page' blog.profile.id %}">
                 <div>
                     <strong>
-                        {{ profile.user.first_name }} {{ profile.user.last_name }}
+                        {{ blog.profile.user.first_name }} {{ blog.profile.user.last_name }}
                     </strong>
                     </a>
                     <p>{{ blog.time_stamp.date }}</p>
