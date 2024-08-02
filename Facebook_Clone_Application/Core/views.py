@@ -93,7 +93,8 @@ def current_user_posts(request, slug, pk):
     posts = UserPost.objects.filter(user=profile.user).order_by('-time_stamp')
     template = 'Core/current-user/current_user_posts.html'
     context = {
-        'posts': posts
+        'posts': posts,
+        'profile':profile
         }
     return render(request, template, context)
 
