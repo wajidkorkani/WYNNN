@@ -94,7 +94,6 @@ def current_user_posts(request, slug, pk):
     template = 'Core/current-user/current_user_posts.html'
     context = {
         'posts': posts,
-        'profile':profile
         }
     return render(request, template, context)
 
@@ -270,7 +269,6 @@ def all_users_blogs(request, slug, pk):
     blog = Blog.objects.filter(profile=profile).order_by('-time_stamp')
     template = 'Core/all-users/all_users_blogs.html'
     context = {
-        'blogs':blog,
-        'profile':profile
+        'blogs':blog
     }
     return render(request, template, context)
