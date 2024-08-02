@@ -9,8 +9,8 @@
   <br><br>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <a href="/me/" class="btn btn-outline-success">Cancel</a>
-        <button class="btn btn-outline-danger" type="submit">Delete</button>
+        <a href="{% url 'current_user_profile' %}" class="btn btn-outline-dark">Cancel</a>
+        <button class="btn btn-outline-dark" type="submit">Delete</button>
     </form>
 </div>
 {% endblock %}
