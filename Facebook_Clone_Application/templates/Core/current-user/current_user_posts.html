@@ -10,23 +10,11 @@
         padding: 20px;
     }
 
-    .image {
-        max-width: 500px;
-        max-height: 800px;
-    }
-
     #img {
         /* Define the width and height of the circular image container */
-        width: 28%;
-        height: 28%;
+        width: 300px;
         /* Set the border-radius to 50% to make the image circular */
-        border-radius: 50%;
-        /* Optional: Add a border to the circular image */
-        border: 20px solid white;
-        overflow: hidden;
-        clip-path: circle(50% at 50% 50%);
-        /* Prevent the image from being stretched or skewed */
-        object-fit: cover;
+        border-radius: 10%;
     }
     #postCaption{
         padding: 10px;
@@ -72,7 +60,7 @@
         </div>
     </div>
     {% if post.image %}
-    <img class='image' src="{{ post.image.url }}">
+    <img id="img" src="{{ post.image.url }}">
     {% endif %}
     <br><br>
     <hr><br><br>
