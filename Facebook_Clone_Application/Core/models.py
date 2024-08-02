@@ -23,7 +23,6 @@ class UserProfile(models.Model):
         return self.user.username
 
 class UserPost(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     image = models.ImageField(upload_to='media/', blank=True, null=True)
     capution = models.CharField(max_length=2000)
@@ -33,7 +32,7 @@ class UserPost(models.Model):
 
 
 class Blog(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     image = models.ImageField(upload_to='media/', blank=True, null=True)
     title = models.CharField(max_length=200, default='Title')
     text = models.TextField()
@@ -43,7 +42,7 @@ class Blog(models.Model):
 
 class BlogComment(models.Model):
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     comment = models.CharField(max_length=500, blank=True)
     ip = models.CharField(max_length=20, blank=True)
     time_stamp = models.DateTimeField(auto_now=True)
@@ -52,7 +51,7 @@ class BlogComment(models.Model):
         return self.subject
 
 class BlogCommentReply(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     blog_comment = models.ForeignKey(BlogComment, on_delete=models.CASCADE)
     reply = models.CharField(max_length=500, blank=True)
     ip = models.CharField(max_length=20, blank=True)
