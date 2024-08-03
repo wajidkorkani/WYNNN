@@ -2,15 +2,37 @@
 {% block head %}
 <title>{{ profile.user.first_name }} {{ profile.user.last_name }}</title>
 <style>
-    .image {
-        max-width: 500px;
-        max-height: 800px;
-    }
-    #img{
+    #img {
         /* Define the width and height of the circular image container */
-        max-width: 78%;
+        width: 300px;
         /* Set the border-radius to 50% to make the image circular */
-  }
+        border-radius: 10%;
+    }
+    #postCaption{
+        padding: 10px;
+    }
+    #container{
+        width: 300px;
+        margin: 0 auto;
+    }
+    #profileImage{
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+    }
+    a{
+        text-decoration: none;
+        color: #000;
+    }
+    #ltd{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+    }
+    #blogTitle{
+        padding: 5px;
+    }
 </style>
 {% endblock %}
 {% block body %}
@@ -19,18 +41,36 @@
     <br>
     {% if blogs %}
     {% for blog in blogs %}
-    <a class="btn" href="{% url 'blog_about_page' blog.id %}">
+    <div id="container">
+        <div id="ltd">
+                <a href="{% url 'all_users_profile_page' blog.profile.id %}">
+                <img id="profileImage" src="{{ blog.profile.image.url }}" alt="Profile image of the user who uploaded this blog.">
+                </a>
+                <a href="{% url 'all_users_profile_page' blog.profile.id %}">
+                <div>
+                    <strong>
+                        {{ blog.profile.user.first_name }} {{ blog.profile.user.last_name }}
+                    </strong>
+                    </a>
+                    <p>{{ blog.time_stamp.date }}</p>
+                </div>
+        </div>
+        <div id="blogTitle">
+            <a href="{% url 'blog_about_page' blog.id %}">
+                <strong>{{ blog.title }}</strong>
+                </a>
+        </div>
+    </div>
     {% if blog.image %}
+        <a class="btn" href="{% url 'blog_about_page' blog.id %}">
         <img id="img" src="{{ blog.image.url }}">
+        </a>
     {% endif %}
-    <h1>{{ blog.title }}</h1>
-    <p>{{ blog.likes.count }}</p>
-    <strong>{{ blog.time_stamp }}</strong>
     </a>
     <br><hr><br>
     {% endfor %}
     {% else %}
-    <h1>{{ profile.user.first_name }} {{ profile.user.last_name }} didn't upload any blog yet.</h1>
+    <p>{{ profile.user.first_name }} {{ profile.user.last_name }} didn't upload any blog yet.</p>
     {%endif%}
 </div>
 {% endblock %}

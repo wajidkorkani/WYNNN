@@ -67,22 +67,22 @@ class Create_User_Post(CreateView):
     fields = ['image', 'capution']
     def form_valid(self, form):
         # Automatically set the user field to the currently logged-in user
-        form.instance.user = self.request.user
-        productID = self.kwargs.get('pk')
-        form.instance.profile = get_object_or_404(UserProfile, id=productID)
+        profileID = self.kwargs.get('pk')
+        form.instance.profile = get_object_or_404(UserProfile, id=profileID)
         return super().form_valid(form)
 
 
 # This view is for to like any post uploaded by any user
 @login_required
 def post_likes(request, pk):
+    profile = get_object_or_404(UserProfile, user=request.user)
     url = request.META.get('HTTP_REFERER')
     post = UserPost.objects.filter(id=pk).first()
     if post is not None:
-        if post.likes.filter(id=request.user.id).exists():
-            post.likes.remove(request.user.id)
+        if post.likes.filter(userprofile__id=profile.id).exists():
+            post.likes.remove(profile.id)
         else:
-            post.likes.add(request.user.id)
+            post.likes.add(profile.id)
     return redirect(url)
 
 
@@ -90,10 +90,11 @@ def post_likes(request, pk):
 @login_required
 def current_user_posts(request, slug, pk):
     profile = get_object_or_404(UserProfile, slug=slug, id=pk)
-    posts = UserPost.objects.filter(user=profile.user).order_by('-time_stamp')
+    posts = UserPost.objects.filter(profile=profile).order_by('-time_stamp')
     template = 'Core/current-user/current_user_posts.html'
     context = {
-        'posts': posts
+        'posts': posts,
+        'profile':profile
         }
     return render(request, template, context)
 
@@ -118,7 +119,8 @@ class Create_Blog(CreateView):
     fields = ['image', 'title', 'category','text']
     def form_valid(self, form):
         # Automatically set the user field to the currently logged-in user
-        form.instance.user = self.request.user
+        profileID = self.kwargs.get('pk')
+        form.instance.profile = get_object_or_404(UserProfile, id=profileID)
         return super().form_valid(form)
 
 
@@ -164,6 +166,7 @@ def blog_comment_about_page(request, pk):
 @login_required
 def submit_blog_review(request, blog_id):
     url = request.META.get('HTTP_REFERER')
+    profile = get_object_or_404(UserProfile, user=request.user)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -171,7 +174,7 @@ def submit_blog_review(request, blog_id):
             data.comment = form.cleaned_data['comment']
             data.ip = request.META.get('REMOTE_ADDR')
             data.blog_id = blog_id
-            data.user_id = request.user.id
+            data.profile_id = profile.id
             data.save()
             return redirect(url)
 
@@ -180,6 +183,7 @@ def submit_blog_review(request, blog_id):
 @login_required
 def submit_comment_reply(request, comment_id):
     url = request.META.get('HTTP_REFERER')
+    profile = get_object_or_404(UserProfile, user=request.user)
     if request.method == 'POST':
         form = ReplyForm(request.POST)
         if form.is_valid():
@@ -187,7 +191,7 @@ def submit_comment_reply(request, comment_id):
             data.reply = form.cleaned_data['reply']
             data.ip = request.META.get('REMOTE_ADDR')
             data.blog_comment_id = comment_id
-            data.user_id = request.user.id
+            data.profile_id = profile.id
             data.save()
             return redirect(url)
 
@@ -196,10 +200,11 @@ def submit_comment_reply(request, comment_id):
 @login_required
 def current_user_blogs(request, slug, pk):
     profile = get_object_or_404(UserProfile, slug=slug, id=pk)
-    blog = Blog.objects.filter(user=profile.user).order_by('-time_stamp')
+    blog = Blog.objects.filter(profile=profile).order_by('-time_stamp')
     template = 'Core/current-user/current_user_blogs.html'
     context = {
-        'blogs':blog
+        'blogs':blog,
+        'profile':profile
         }
     return render(request, template, context)
 
@@ -251,10 +256,11 @@ def all_users_profile_page(request, pk):
 @login_required
 def all_users_posts(request, slug, pk):
     profile = get_object_or_404(UserProfile, slug=slug, id=pk)
-    posts = UserPost.objects.filter(user=profile.user).order_by('-time_stamp')
+    posts = UserPost.objects.filter(profile=profile).order_by('-time_stamp')
     template = 'Core/all-users/all_users_posts.html'
     context = {
-        'posts': posts
+        'posts': posts,
+        'profile':profile
     }
     return render(request, template, context)
 
@@ -263,7 +269,7 @@ def all_users_posts(request, slug, pk):
 @login_required
 def all_users_blogs(request, slug, pk):
     profile = get_object_or_404(UserProfile, slug=slug, id=pk)
-    blog = Blog.objects.filter(user=profile.user).order_by('-time_stamp')
+    blog = Blog.objects.filter(profile=profile).order_by('-time_stamp')
     template = 'Core/all-users/all_users_blogs.html'
     context = {
         'blogs':blog,

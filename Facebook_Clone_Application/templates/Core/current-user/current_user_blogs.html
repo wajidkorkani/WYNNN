@@ -2,48 +2,66 @@
 {% block head %}
 <title>Story Book</title>
 <style>
-    .image {
-        max-width: 500px;
-        max-height: 800px;
+    #ltbox {
+        display: flex;
+        margin: 0 auto;
+        width: 150px;
+        padding: 20px;
     }
-    #img{
+
+    #img {
         /* Define the width and height of the circular image container */
-        width: 28%;
-        height: 28%;
+        width: 300px;
         /* Set the border-radius to 50% to make the image circular */
-        border-radius: 50%;
-        /* Optional: Add a border to the circular image */
-        border: 20px solid white;
-        overflow: hidden;
-        clip-path: circle(50% at 50% 50%);
-        /* Prevent the image from being stretched or skewed */
-        object-fit: cover;
-  }
-</style>
+        border-radius: 10%;
+    }
+    #postCaption{
+        padding: 10px;
+    }
+    #infoContainer{
+        width: 300px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 auto;
+    }
+</style>>
 {% endblock %}
 {% block body %}
 {% include "navbar.html" %}
 <div class="container text-center">
     {% if blogs %}
     {% for blog in blogs %}
-    <a class="btn" href="{% url 'blog_about_page' blog.id %}">
-    <strong>{{ blog.time_stamp }}</strong>
-    <br>
-    {% if blog.capution %}
-    <p>{{ blog.capution }}</p>
-    {% endif %}
+    <div id="infoContainer">
+        <div>
+            {% if blog.title %}
+            <a class="btn" href="{% url 'blog_about_page' blog.id %}">
+            <strong>{{ blog.title }}</strong>
+            </a>
+            {% endif %}
+            <p>{{ blog.time_stamp }}</p>
+        </div>
+        <div>
+            <a href="{% url 'delete_blog' blog.id %}" class="btn btn-outline-dark"><svg xmlns="http://www.w3.org/2000/svg"
+                width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                <path
+                    d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+            </svg></a>
+        </div>
+    </div>
     <br>
     {% if blog.image %}
-    <img class='image' src="{{ blog.image.url }}">
-    {% endif %}
+    <a class="btn" href="{% url 'blog_about_page' blog.id %}">
+    <img id="img" class='image' src="{{ blog.image.url }}">
     </a>
-    <br><br>
-    <a href="{% url 'delete_blog' blog.id %}"><button class="btn btn-outline-danger">Delete</button></a>
+    {% endif %}
     <br><br><hr><br><br>
     {% endfor %}
     {% else %}
-    <h1>You didn't upload any post yet.</h1>
-    <a class="btn" href="{% url 'create_blog' request.user.id %}"><button class="btn btn-outline-primary">Create blog</button></a>
+    <div>
+        <p>You didn't upload any blog yet.</p>
+        <a class="btn btn-outline-dark" href="{% url 'create_blog' request.user.id %}">Create blog</a>
+    </div>
     {% endif %}
 </div>
 {% endblock %}
