@@ -2,18 +2,25 @@
 {% block head %}
 <title>{{ blog.title }}</title>
 <style>
-  #userInforBox {
-    width: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-  }
-
   #ownerImg {
     width: 65px;
     height: 65px;
     border-radius: 50%;
+  }
+
+  #form{
+    margin: 0 auto;
+    width: 50%;
+    border-color: black;
+  }
+
+  #input:focus{
+    border: none;
+    outline: none;
+  }
+  #formMainBox #formMiniBox{
+    margin: 0 auto;
+    width: 100%;
   }
 
   @media(max-width:767px) {
@@ -57,12 +64,12 @@
   <br>
   <hr>
   <br>
-  <div class="row">
-    <div class="col-md-9">
+  <div id="formMainBox" class="row">
+    <div id="formMiniBox" class="col-md-9">
 
 
 
-      <form action="{% url 'submit_review' blog.id %}" method="POST">
+      <form id="form" action="{% url 'submit_review' blog.id %}" method="POST">
         {% csrf_token %}
         <h5>Write Your Review</h5>
 
