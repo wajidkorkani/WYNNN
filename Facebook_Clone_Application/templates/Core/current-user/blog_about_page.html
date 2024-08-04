@@ -2,29 +2,50 @@
 {% block head %}
 <title>{{ blog.title }}</title>
 <style>
-  #userInfoBox{
+  #userInfoBox {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
   }
+
   #ownerImg {
     width: 65px;
     height: 65px;
     border-radius: 50%;
   }
 
-  #form{
+  #reviewerInfoBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  #reviewerImage {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+  }
+
+
+  #form {
     margin: 0 auto;
     width: 50%;
     border-color: black;
   }
 
-  #input:focus{
+  #input:focus {
     border: none;
     outline: none;
   }
-  #formMainBox #formMiniBox{
+
+  #formMainBox {
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  #formMiniBox {
     margin: 0 auto;
     width: 100%;
   }
@@ -94,17 +115,16 @@
       <br>
       <div style="text-align: center;">
         {% for comment in comments %}
-        <div>
-          <img src="{{ comment.profile.image.url }}"
+        <div id="reviewerInfoBox">
+          <img id="reviewerImage" src="{{ comment.profile.image.url }}"
             alt="Profile image of user who commented on this blog and this is his/her comment.">
           <div>
             <strong>
               {{ comment.profile.user.first_name }} {{ comment.profile.user.last_name }}
             </strong>
-            <p></p>
+            <p>{{ comment.time_stamp.date }}</p>
           </div>
         </div>
-        <strong>{{ comment.time_stamp.date }}</strong>
         <br>
         <p>{{ comment.comment }}</p>
         <br>
