@@ -35,8 +35,14 @@
     border-color: black;
   }
 
-  #input:focus {
-    border: none;
+  #formInput {
+    text-align: center;
+    width: 300px;
+    height: 40px;
+    margin-bottom: 20px;
+  }
+
+  #formInput:focus {
     outline: none;
   }
 
@@ -98,14 +104,13 @@
 
       <form id="form" action="{% url 'submit_review' blog.id %}" method="POST">
         {% csrf_token %}
-        <h5>Write Your Review</h5>
+        <h5>Review</h5>
 
         <div>
-          Review:
-          <textarea name="comment" rows="4" class="form-control"></textarea>
+          <input id="formInput" placeholder="Write your review" name="comment" rows="4"></input>
           <br>
           {% if request.user.is_authenticated %}
-          <input id="input" type="submit" value="Submit Review" class="btn btn-outline-dark">
+          <button type="submit" class="btn btn-outline-dark">Submit Review</button>
           {% else %}
           <p>You must be logged in to post a review. <span><a href="{% url 'login' %}">Login now</a></span></p>
           {% endif %}
