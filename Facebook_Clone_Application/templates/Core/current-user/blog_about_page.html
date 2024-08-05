@@ -37,9 +37,9 @@
 
   #formInput {
     text-align: center;
-    width: 300px;
+    width: 350px;
     height: 40px;
-    margin-bottom: 20px;
+    margin: 0 auto;
   }
 
   #formInput:focus {
@@ -49,6 +49,10 @@
   #formMainBox {
     margin: 0 auto;
     width: 100%;
+  }
+  
+  #btn{
+    margin-top: 20px;
   }
 
   #formMiniBox {
@@ -60,6 +64,14 @@
     #img {
       width: 300px;
       border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    #formInput {
+      text-align: center;
+      width: 200px;
+      height: 40px;
+      margin: 0 auto;
     }
   }
 
@@ -67,6 +79,7 @@
     #img {
       width: 450px;
       border-radius: 30px;
+      margin-bottom: 20px;
     }
   }
 
@@ -74,6 +87,7 @@
     #img {
       width: 700px;
       border-radius: 40px;
+      margin-bottom: 20px;
     }
   }
 </style>
@@ -97,25 +111,21 @@
   <br>
   <hr>
   <br>
-  <div id="formMainBox" class="row">
-    <div id="formMiniBox" class="col-md-9">
+  <div id="formMainBox">
+    <div id="formMiniBox">
 
 
 
       <form id="form" action="{% url 'submit_review' blog.id %}" method="POST">
         {% csrf_token %}
         <h5>Review</h5>
-
-        <div>
-          <input id="formInput" placeholder="Write your review" name="comment" rows="4"></input>
-          <br>
-          {% if request.user.is_authenticated %}
-          <button type="submit" class="btn btn-outline-dark">Submit Review</button>
-          {% else %}
-          <p>You must be logged in to post a review. <span><a href="{% url 'login' %}">Login now</a></span></p>
-          {% endif %}
-
-        </div>
+        <input id="formInput" placeholder="Write your review" name="comment" rows="4"></input>
+        <br>
+        {% if request.user.is_authenticated %}
+        <button id="btn" type="submit" class="btn btn-outline-dark">Submit Review</button>
+        {% else %}
+        <p>You must be logged in to post a review. <span><a href="{% url 'login' %}">Login now</a></span></p>
+        {% endif %}
       </form>
       <br>
       <div style="text-align: center;">
