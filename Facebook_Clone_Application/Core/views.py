@@ -153,11 +153,11 @@ def blog_about_page(request, pk):
 @login_required
 def blog_comment_about_page(request, pk):
     comment = get_object_or_404(BlogComment, id=pk)
-    reply = BlogCommentReply.objects.filter(blog_comment__id=comment.id)
+    replies = BlogCommentReply.objects.filter(blog_comment__id=comment.id)
     template = 'Core/current-user/blog_comment_reply.html'
     context = {
         'comment': comment,
-        'reply': reply
+        'replies': replies
     }
     return render(request, template, context)
 
