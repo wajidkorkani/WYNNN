@@ -1,25 +1,42 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block head %}
-<title>{{ profile.user.fname }}</title>
+<title>Story Book</title>
 <style>
-    .image {
-        max-width: 500px;
-        max-height: 800px;
+    #ltbox {
+        display: flex;
+        margin: 0 auto;
+        width: 150px;
+        padding: 20px;
     }
-    #img{
+
+    #img {
         /* Define the width and height of the circular image container */
-        width: 28%;
-        height: 28%;
+        width: 300px;
         /* Set the border-radius to 50% to make the image circular */
+        border-radius: 10%;
+    }
+    #postCaption{
+        padding: 10px;
+    }
+    #infoContainer{
+        width: 300px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 auto;
+    }
+    #ownerImage{
+        width: 65px;
+        height: 65px;
         border-radius: 50%;
-        /* Optional: Add a border to the circular image */
-        border: 20px solid white;
-        overflow: hidden;
-        clip-path: circle(50% at 50% 50%);
-        /* Prevent the image from being stretched or skewed */
-        object-fit: cover;
-  }
+    }
+    #userInfoBox{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+    }
 </style>
 {% endblock %}
 {% block body %}
@@ -27,29 +44,45 @@
 <div class="container text-center">
     {% if posts %}
     {% for post in posts %}
-    <strong>{{ post.time_stamp }}</strong>
-    {% if post.capution %}
-    <p>{{ post.capution }}</p>
-    {% endif %}
+    <div id="userInfoBox">
+        <img id="ownerImage" src="{{ post.profile.image.url }}" alt="Profile of the user who uploaded this post">
+        <div>
+            <strong>
+                {{ post.profile.user.first_name }} {{ post.profile.user.last_name }}
+            </strong>
+            <p>{{ post.time_stamp.date }}</p>
+        </div>
+    </div>
+    <div id="infoContainer">
+        <div>
+            {% if post.capution %}
+            <p id="postCaption">{{ post.capution }}</p>
+            {% endif %}
+        </div>
+        <div id="ltbox">
+            {% if user in post.likes.all %}
+            <div style="display: flex; margin: 0 auto; max-width: 200px;">
+                <p>{{ post.likes.count }}  </p> <a href="{% url 'post_likes' post.id %}"><img style="width: 40px;"
+                        src="{% static 'images/like.png' %}" alt="Unlike"></a>
+            </div>
+            {% else %}
+            <div style="display: flex; margin: 0 auto; max-width: 200px;">
+                <p>{{ post.likes.count }} </p> <a href="{% url 'post_likes' post.id %}"><img style="width: 40px;"
+                        src="{% static 'images/unlike.png' %}" alt="Like"></a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
     {% if post.image %}
-    <img class='image' src="{{ post.image.url }}">
+    <img id="img" src="{{ post.image.url }}">
     {% endif %}
     <br><br>
-    {% if user in post.likes.all %}
-    <div style="display: flex; margin: 0 auto; max-width: 200px;">
-        <p>Likes {{ post.likes.count }} </p> <a href="{% url 'post_likes' post.id %}"><img style="width: 40px;"
-                src="{% static 'images/like.png' %}" alt="Unlike"></a>
-    </div>
-    {% else %}
-    <div style="display: flex; margin: 0 auto; max-width: 200px;">
-        <p>Likes {{ post.likes.count }} </p> <a href="{% url 'post_likes' post.id %}"><img style="width: 40px;"
-                src="{% static 'images/unlike.png' %}" alt="Like"></a>
-    </div>
-    {% endif %}
-    <br><br><hr><br><br>
+    <hr><br><br>
     {% endfor %}
     {% else %}
-    <h1>No posts has been uploaded.</h1>
+    <div>
+        <p>{{ profile.user.first_name }} {{ profile.user.last_name }}  didn't upload any post yet.</p>
+    </div>
     {% endif %}
 </div>
 {% endblock %}
