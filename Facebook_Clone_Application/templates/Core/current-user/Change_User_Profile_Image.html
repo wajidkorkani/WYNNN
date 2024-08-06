@@ -1,6 +1,17 @@
 {% extends 'base.html' %}
 {% block head %}
 <title>Change Profile Image</title>
+
+<style>
+  input{
+    max-width: 200px;
+  }
+  input:focus{
+    outline: none;
+    border: 1px solid black;
+  }
+</style>
+
 {% endblock %}
 {% block body %}
 <div class="container" style="display: flex; justify-content: center; align-items: center; margin-top: 60px;">
@@ -8,9 +19,10 @@
         <div class="mb-3">
             {% csrf_token %}
           <label for="exampleInputEmail1" class="form-label">Select an image</label>
-          <input name="image" type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <br>
+          <input name="image" type="file">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-dark">Submit</button>
       </form>
 </div>
 {% endblock %}
