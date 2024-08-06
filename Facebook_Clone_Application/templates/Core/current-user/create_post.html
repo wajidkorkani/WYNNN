@@ -1,14 +1,55 @@
 {% extends 'base.html' %}
 {% block head %}
 <title>Story Book</title>
+<style>
+    #container {
+        margin: 0 auto;
+        width: 80%;
+        max-width: 600px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    #btn {
+        display: block;
+        width: 100%;
+        margin-top: 20px;
+    }
+    #fields {
+        margin-bottom: 20px;
+    }
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+    input[type="text"], input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+    input[type="text"]:focus, input[type="file"]:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+</style>
 {% endblock %}
+
 {% block body %}
 {% include 'navbar.html' %}
-<div class="container">
+<div id="container" class="container">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form }}
-        <button class="btn btn-outline-success" type="submit">Submit</button>
+        <div id="fields">
+            <label for="id_capution">Write something</label>
+            {{ form.capution }}
+            <label for="id_image">Upload an image</label>
+            {{ form.image }}
+        </div>
+        <button id="btn" class="btn btn-outline-dark" type="submit">Submit</button>
     </form>
 </div>
 {% endblock %}
