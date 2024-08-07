@@ -20,6 +20,7 @@
 
     a{
         text-decoration: none;
+        color: black;
     }
 
     #linkBox{
@@ -67,11 +68,15 @@
         margin: 0 auto;
         width: 270px;
         height: 270px;
-        border-radius: 20px;
+        text-decoration: none;
+        color: black;
     }
 
     #blogBox:hover{
+        width: 270px;
+        height: 270px;
         border: 1px black solid;
+        border-radius: 20px;
     }
 
     #postUserImgBox{
@@ -126,12 +131,13 @@
     <a id="linkBox" class='btn' href="{% url 'all_users_profile_page' search.id %}">
         <div id="userInfoSearchBox">
             {% if search.image %}
-                <img id="img" src="{{ search.image.url }}">
+                <img id="Img" src="{{ search.image.url }}" alt="user image">
             {% endif %}
             <strong>{{ search.user.first_name }} {{ search.user.last_name }}</strong>
         </div>
     </a>
     {% endif %}
+    <br>
 {% endfor %}
 
 {% for search in users%}
@@ -154,6 +160,7 @@
     </div>
 </a>
 {% endif %}
+<br>
 {% endfor %}
 
 {% for search in posts %}
@@ -220,14 +227,17 @@
     {% endif %}
     <br>
     <div id="blogBox">
-        <h1>{{ search.title }}</h1>
-        {% if search.image %}
-        <br>
-        <img id="postImg" src="{{ search.image.url }}">
-        <br><br>
-        {% endif %}
+        <a href="{% url 'blog_about_page' search.id %}">
+            <h1>{{ search.title }}</h1>
+            <br>
+            {% if search.image %}
+                <img id="postImg" src="{{ search.image.url }}" alt="blog image">
+            {% else %}
+                <img id="postImg" src="" alt="blog image">
+            {% endif %}
+        </a>
     </div>
-    <br>
+    <br><br>
 </div>
 <br>
 {% endfor %}
@@ -258,12 +268,15 @@
     {% endif %}
     <br>
     <div id="blogBox">
-        <h1>{{ search.title }}</h1>
-        {% if search.image %}
-        <br>
-        <img id="postImg" src="{{ search.image.url }}">
-        <br><br>
-        {% endif %}
+        <a href="{% url 'blog_about_page' search.id %}">
+            <h1>{{ search.title }}</h1>
+            <br>
+            {% if search.image %}
+                <img id="postImg" src="{{ search.image.url }}" alt="blog image">
+            {% else %}
+                <img id="postImg" src="" alt="blog image">
+            {% endif %}
+        </a>
     </div>
     <br>
 </div>
@@ -295,14 +308,17 @@
         </a>
     {% endif %}
     <br>
-    <a id="blogBox" href="{% url '' search.id %}">
-        <h1>{{ search.title }}</h1>
-        {% if search.image %}
-        <br>
-        <img id="postImg" src="{{ search.image.url }}">
-        <br><br>
-        {% endif %}
-    </a>
+    <div id="blogBox">
+        <a href="{% url 'blog_about_page' search.id %}">
+            <h1>{{ search.title }}</h1>
+            <br>
+            {% if search.image %}
+                <img id="postImg" src="{{ search.image.url }}" alt="blog image">
+            {% else %}
+                <img id="postImg" src="" alt="blog image">
+            {% endif %}
+        </a>
+    </div>
     <br>
 </div>
 <br>
