@@ -60,10 +60,17 @@
         margin: 0 auto;
         width: 270px;
         height: 270px;
+    }
+
+    #blogBox{
+        text-align: center;
+        margin: 0 auto;
+        width: 270px;
+        height: 270px;
         border-radius: 20px;
     }
 
-    #postBox:hover{
+    #blogBox:hover{
         border: 1px black solid;
     }
 
@@ -212,7 +219,7 @@
         </a>
     {% endif %}
     <br>
-    <div id="postBox">
+    <div id="blogBox">
         <h1>{{ search.title }}</h1>
         {% if search.image %}
         <br>
@@ -250,7 +257,7 @@
         </a>
     {% endif %}
     <br>
-    <div id="postBox">
+    <div id="blogBox">
         <h1>{{ search.title }}</h1>
         {% if search.image %}
         <br>
@@ -288,14 +295,14 @@
         </a>
     {% endif %}
     <br>
-    <div id="postBox">
+    <a id="blogBox" href="{% url '' search.id %}">
         <h1>{{ search.title }}</h1>
         {% if search.image %}
         <br>
         <img id="postImg" src="{{ search.image.url }}">
         <br><br>
         {% endif %}
-    </div>
+    </a>
     <br>
 </div>
 <br>
