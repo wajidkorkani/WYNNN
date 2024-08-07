@@ -1,31 +1,96 @@
 {% extends 'base.html' %}
 {% block head %}
 <title>Story Book | Search Results</title>
+
+<style>
+    #userInfoSearchBox{
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        width: 350px;
+    }
+    
+
+    strong{
+        font-size: 20px;
+    }
+
+
+    a{
+        text-decoration: none;
+    }
+
+    #linkBox{
+        text-decoration: none;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px lightgray solid;
+        width: 350px;
+        border-radius: 20px;
+    }
+
+    #linkBox:hover{
+        border: 1px black solid;
+    }
+
+    #img{
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+    }
+</style>
+
 {% endblock%}
 {% block body %}
 
 {% include "navbar.html" %}
 
 {% for search in user_fname%}
-  <div style="text-align: center;">
-    <a class='btn' href="{% url 'all_users_profile_page' search.id %}"><h1>{{ search.user.first_name }} {{ search.user.last_name }}</h1></a>
-      {% if search.image %}
-      <br>
-      <img style="max-width:100px" src="{{ search.image.url }}">
-      {% endif %}
-      <h1>{{ search.user.fname }} {{ search.user.lname }}</h1>
-  </div>
+{% if request.user.id == search.user.id %}
+    <a id="linkBox" class='btn' href="{% url 'current_user_profile' %}">
+        <div id="userInfoSearchBox">
+            {% if search.image %}
+                <img id="img" src="{{ search.image.url }}">
+            {% endif %}
+            <strong>{{ search.user.first_name }} {{ search.user.last_name }}</strong>
+        </div>
+    </a>
+    {% else %}
+    <a id="linkBox" class='btn' href="{% url 'all_users_profile_page' search.id %}">
+        <div id="userInfoSearchBox">
+            {% if search.image %}
+                <img id="img" src="{{ search.image.url }}">
+            {% endif %}
+            <strong>{{ search.user.first_name }} {{ search.user.last_name }}</strong>
+        </div>
+    </a>
+    {% endif %}
 {% endfor %}
 
 {% for search in users%}
-<div style="text-align: center;">
-    <a class='btn' href="{% url 'all_users_profile_page' search.id %}"><h1>{{ search.user.first_name }} {{ search.user.last_name }}</h1></a>
-    {% if search.image %}
-    <br>
-    <img style='max-width : 100px;' src="{{ search.image.url }}">
-    {% endif %}
-    <h1>{{ search.user.fname }} {{ search.user.lname }}</h1>
-</div>
+{% if request.user.id == search.user.id %}
+<a id="linkBox" class='btn' href="{% url 'current_user_profile' %}">
+    <div id="userInfoSearchBox">
+        {% if search.image %}
+            <img id="img" src="{{ search.image.url }}">
+        {% endif %}
+        <strong>{{ search.user.first_name }} {{ search.user.last_name }}</strong>
+    </div>
+</a>
+{% else %}
+<a id="linkBox" class='btn' href="{% url 'all_users_profile_page' search.id %}">
+    <div id="userInfoSearchBox">
+        {% if search.image %}
+            <img id="img" src="{{ search.image.url }}">
+        {% endif %}
+        <strong>{{ search.user.first_name }} {{ search.user.last_name }}</strong>
+    </div>
+</a>
+{% endif %}
 {% endfor %}
 
 {% for search in posts %}
