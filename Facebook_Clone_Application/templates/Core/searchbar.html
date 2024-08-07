@@ -226,20 +226,41 @@
 {% endfor %}
 
 {% for search in blogs %}
-<div style="text-align: center;">
-    <h1>{{ search.user }}</h1>
+<div id="postMainBox">
     <br>
-    <a href="{% url 'blog_about_page' search.id %}" class="btn">
-    {% if search.image %}
-        <br>
-        <img src="{{ search.image.url }}">
-        <br><br>
+    {% if request.user.id == search.profile.user.id %}
+        <a id="postUserImgBox" class='btn' href="{% url 'current_user_profile' %}">
+            {% if search.profile.image %}
+                <img id="postUserImg" src="{{ search.profile.image.url }}">
+            {% endif %}
+            <div>
+                <strong>{{ search.profile.user.first_name }} {{ search.profile.user.last_name }}</strong>
+                <p>{{ search.time_stamp.date }}</p>
+            </div>
+        </a>
+    {% else %}
+        <a id="postUserImgBox" class='btn' href="{% url 'all_users_profile_page' search.profile.id %}">
+            {% if search.profile.image %}
+                <img id="postUserImg" src="{{ search.profile.image.url }}">
+            {% endif %}
+            <div>
+                <strong>{{ search.profile.user.first_name }} {{ search.profile.user.last_name }}</strong>
+                <p>{{ search.time_stamp.date }}</p>
+            </div>
+        </a>
     {% endif %}
     <br>
-    <h1>{{ search.title }}</h1>
-    <strike>{{ search.time_stamp }}</strike>
-    </a>
+    <div id="postBox">
+        <h1>{{ search.title }}</h1>
+        {% if search.image %}
+        <br>
+        <img id="postImg" src="{{ search.image.url }}">
+        <br><br>
+        {% endif %}
+    </div>
+    <br>
 </div>
+<br>
 {% endfor %}
 
 {% for search in blogs_category %}
