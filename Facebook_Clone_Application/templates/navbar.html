@@ -1,3 +1,16 @@
+<style>
+  #SearchInputField{
+    border: 1px lightgray solid;
+    border-radius: 10px;
+    padding: 5px;
+    margin-right: 10px;
+    height: 42px;
+  }
+  #SearchInputField:focus{
+    outline: none;
+    border: 1px black solid;
+  }
+</style>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
       <a class="navbar-brand" href="{% url 'home' %}">Story Book</a>
@@ -24,7 +37,7 @@
         </ul>
         <form class="d-flex" method="POST" action="{% url 'searchbar' %}">
           {% csrf_token %}
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name='searched'>
+          <input id="SearchInputField" type="search" placeholder="Search" aria-label="Search" name='searched'>
           <button class="btn btn-outline-dark" type="submit">Search</button>
         </form>
       </div>
