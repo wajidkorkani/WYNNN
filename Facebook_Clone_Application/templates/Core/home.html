@@ -2,44 +2,143 @@
 {% load static %}
 {% block head %}
 <title>Story Book</title>
+
+<style>
+    #userInfoSearchBox{
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        width: 350px;
+    }
+    
+
+    strong{
+        font-size: 20px;
+    }
+
+
+    a{
+        text-decoration: none;
+        color: black;
+    }
+
+    #linkBox{
+        text-decoration: none;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px lightgray solid;
+        width: 350px;
+        border-radius: 20px;
+    }
+
+    #linkBox:hover{
+        border: 1px black solid;
+    }
+
+    #img{
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+    }
+
+    #postMainBox{
+        width: 300px;
+        margin: 0 auto;
+        text-align: center;
+        border: 1px lightgray solid;
+        border-radius: 20px;
+    }
+
+    #postMainBox:hover{
+        border: 1px solid black;
+    }
+
+    #postBox{
+        text-align: center;
+        margin: 0 auto;
+        width: 270px;
+        height: 270px;
+    }
+
+    #postUserImgBox{
+        width: 250px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    #postUserImgBox:hover{
+        border: 1px black solid;
+        border-radius: 20px;
+    }
+
+    #postUserImg{
+        margin: 0 auto;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+    }
+
+    #postImg{
+        margin: 0 auto;
+        max-width: 260px;
+        max-height: 260px;
+        border-radius: 20px;
+    }
+
+    h1{
+        font-size: medium;
+    }
+</style>
+
 {% endblock  %}
+
 {% block body %}
+
 {% include "navbar.html" %}
+
 {% for post in posts %}
-<div class='container'>
+<div id="postMainBox">
+    <br>
     {% if request.user.id == post.profile.user.id %}
-    <div style="margin-top: 20px;"> 
-        {% if post.profile.image %}
-            <a href="{% url 'current_user_profile' %}" style="text-decoration: none; color: black;">
-                <img style="width: 60px; height: 60px; border-radius: 50%;" src="{{ post.profile.image.url }}">
-            </a>
-        {% endif %}
-        <a href="{% url 'current_user_profile' %}" style="text-decoration: none; color: black;">
-            <strong>{{ post.profile.user.first_name }} {{ post.profile.user.last_name }}</strong>
+        <a id="postUserImgBox" class='btn' href="{% url 'current_user_profile' %}">
+            {% if post.profile.image %}
+                <img id="postUserImg" src="{{ post.profile.image.url }}">
+            {% endif %}
+            <div>
+                <strong>{{ post.profile.user.first_name }} {{ post.profile.user.last_name }}</strong>
+                <p>{{ post.time_stamp.date }}</p>
+            </div>
         </a>
+    {% else %}
+        <a id="postUserImgBox" class='btn' href="{% url 'all_users_profile_page' post.profile.id %}">
+            {% if post.profile.image %}
+                <img id="postUserImg" src="{{ post.profile.image.url }}">
+            {% endif %}
+            <div>
+                <strong>{{ post.profile.user.first_name }} {{ post.profile.user.last_name }}</strong>
+                <p>{{ post.time_stamp.date }}</p>
+            </div>
+        </a>
+    {% endif %}
+    <br>
+    <div id="postBox">
+        <p>{{ post.capution }}</p>
+        {% if post.image %}
+        <br>
+        <img id="postImg" src="{{ post.image.url }}">
+        <br><br>
+        {% endif %}
     </div>
     <br>
-    {% else %}
-    <div style="margin-top: 20px;">
-        {% if post.profile.image %}
-            <a href="{% url 'all_users_profile_page' post.profile.id %}" style="text-decoration: none; color: black;">
-                <img style="width: 60px; height: 60px; border-radius: 50%;" src="{{ post.profile.image.url }}">
-            </a>
-        {% endif %}
-            <a href="{% url 'all_users_profile_page' post.profile.id %}" style="text-decoration: none; color: black;">
-                <strong>{{ post.profile.user.first_name }} {{ post.profile.user.last_name }}</strong>
-            </a>
-        </div><br>
-    {% endif %}
-    <p>{{ post.capution }}</p>
-    <p>{{ post.time_stamp }}</p>
-    <img style="max-width:400px;" src="{{ post.image.url }}">
-    {% if user in post.likes.all %}
-        <div style="display: flex;"><p>Likes {{ post.likes.count }} </p> <a href="{% url 'post_likes' post.id %}"><img style="width: 40px;" src="{% static 'images/like.png' %}" alt="Unlike"></a></div>
-    {% else %}
-        <div style="display: flex;"><p>Likes {{ post.likes.count }} </p> <a href="{% url 'post_likes' post.id %}"><img style="width: 40px;" src="{% static 'images/unlike.png' %}" alt="Like"></a></div>
-    {% endif %}
-    <br><br><hr><br>
 </div>
+<br>
 {% endfor %}
-{% endblock  %}
+
+{% endblock %}
