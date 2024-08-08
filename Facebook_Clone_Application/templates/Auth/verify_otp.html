@@ -1,6 +1,39 @@
 {% extends 'base.html' %}
 {% block head %}
 <title>Story Book | OTP </title>
+
+<style>
+    input{
+        text-align: center;
+        width: 300px;
+        border-radius: 20px;
+        border: 1px lightgray solid;
+        padding: 5px;
+    }
+
+    input:hover{
+        border: 1px black solid;
+    }
+
+    input:focus{
+        border: 1px black solid;
+        outline: none;
+    }
+
+    #btnBox{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        height: 100px;
+        width: 300px;
+        margin: 0 auto;
+    }
+
+    #btn{
+        width: 100px;
+    }
+</style>
+
 {% endblock %}
 {% block body %}
 <div style="text-align: center; margin-top: 200px;" class="container">
@@ -10,10 +43,12 @@
     {% endif %}
     <form method="POST">
         {% csrf_token %}
-        <input style="text-align: center;" type="text" name="otp" placeholder="Enter OTP">
+        <input type="text" name="otp" placeholder="Enter OTP">
         <br>
-        <br>
-        <button type="submit" class="btn btn-outline-success">Submit</button>
+        <div id="btnBox">
+            <a id="btn" href="{% url 'login' %}" class="btn btn-outline-dark">Cancel</a>
+            <button id="btn" type="submit" class="btn btn-outline-dark">Submit</button>
+        </div>
     </form>
 </div>
 {% endblock %}
