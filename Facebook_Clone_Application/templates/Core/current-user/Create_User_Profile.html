@@ -44,7 +44,7 @@
         height: 100px;
     }
 
-    button{
+    #btn{
         width: 100px;
     }
 </style>
@@ -61,8 +61,8 @@
             <input type="text" name="country" placeholder="Countery">
             <br>
             <div id="btnBox">
-                <button class="btn btn-outline-dark">Cancel</button>
-                <button class="btn btn-outline-dark" type="submit">Submit</button>
+                <a id="btn" href="{% url 'home' %}" class="btn btn-outline-dark">Cancel</a>
+                <button id="btn" class="btn btn-outline-dark" type="submit">Submit</button>
             </div>
         </form>
     </div>
