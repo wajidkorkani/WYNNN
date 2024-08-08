@@ -32,6 +32,36 @@
     border: 1px solid #ddd;
     border-radius: 5px;
   }
+
+  input {
+    text-align: center;
+    width: 300px;
+    border-radius: 20px;
+    border: 1px lightgray solid;
+    padding: 5px;
+  }
+
+  input:hover {
+    border: 1px black solid;
+  }
+
+  input:focus {
+    border: 1px black solid;
+    outline: none;
+  }
+
+  #btnBox {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100px;
+    width: 300px;
+    margin: 0 auto;
+  }
+
+  #btn {
+    width: 100px;
+  }
 </style>
 {% endblock %}
 {% block body %}
@@ -40,26 +70,20 @@
 <div class="container">
   <form method="POST" class="signup-form">
     {% csrf_token %}
-
-    <label for="{{ form.username.id_for_label }}">Username:</label>
-    {{ form.username }}
-
-    <label for="{{ form.first_name.id_for_label }}">First Name:</label>
-    {{ form.first_name }}
-
-    <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
-    {{ form.last_name }}
-    <br><br>
-
-    <label for="{{ form.password1.id_for_label }}">Password:</label>
-    {{ form.password1 }}
-
-    <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
-    {{ form.password2 }}
-
-    <button type="submit" class="btn btn-success">Sign Up</button>
+    <input type="text" name="username" placeholder="Username">
+    <br>
+    <input type="text" name="first_name" placeholder="First Name">
+    <br>
+    <input type="text" name="last_name" placeholder="Last name">
+    <br>
+    <input type="password" name="password1" placeholder="Password">
+    <br>
+    <input type="password" name="password2" placeholder="Confirm password">
+    <br>
+    <div id="btnBox">
+      <a id="btn" href="{% url 'login' %}" class="btn btn-outline-dark">Login</a>
+      <button id="btn" type="submit" class="btn btn-outline-dark">Sign Up</button>
+    </div>
   </form>
-
-  <p class="login-link">Already have an account? <a href="{% url 'login' %}" class="btn btn-primary">Login</a></p>
 </div>
 {% endblock %}
