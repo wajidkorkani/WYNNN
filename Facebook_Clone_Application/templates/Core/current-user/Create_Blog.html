@@ -2,74 +2,82 @@
 {% block head %}
 <title>Story Book</title>
 <style>
+    #mainContainer {
+        margin-top: 60px;
+        width: 100%;
+        height: 100%;
+    }
+
     #container {
+        max-width: 400px;
         margin: 0 auto;
-        width: 80%;
-        max-width: 600px;
         padding: 20px;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        background-color: #f7f7f7;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    input{
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
         text-align: center;
     }
-    #btn {
-        display: block;
-        width: 45%;
-        margin-top: 20px;
+
+    input:hover {
+        border: 1px black solid;
     }
-    #fields {
-        margin-bottom: 20px;
-    }
-    label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 8px;
-    }
-    input[type="text"], input[type="file"] {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        margin-bottom: 10px;
-    }
-    input[type="text"]:focus, input[type="file"]:focus {
-        border-color: black;
-        outline: none;
-    }
-    textarea{
-        width: 100%;
-        margin: 0 auto;
-        height: 50px;
-        border-radius: 4px;
-        padding: 10px;
-        border: 1px solid lightgray;
-    }
-    textarea:focus{
-        border-color: black;
+
+    input:focus {
+        border: 1px black solid;
         outline: none;
     }
 
-    #btnContainer{
+    textarea{
+        width: 100%;
+        min-height: 60px;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    textarea:hover {
+        border: 1px black solid;
+    }
+
+    textarea:focus {
+        border: 1px black solid;
+        outline: none;
+    }
+
+    #btnBox {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-evenly;
         align-items: center;
+        height: 100px;
+        width: 300px;
+        margin: 0 auto;
+    }
+
+    #btn {
+        width: 100px;
     }
 </style>
 {% endblock %}
 {% block body %}
-<div id="container">
-    <form method="post" enctype="multipart/form-data">
+<div id="mainContainer">
+    <form id="container" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <div id="fields">
-            <label for="id_image">Image</label>
-            {{ form.image }}
-            <label for="id_title">Title</label>
-            {{ form.title }}
-            <label for="id_title">Category</label>
-            {{ form.category }}
-            <label for="id_text">Text</label>
-            {{ form.text }}
-        </div>
+        {{ form.image }}
+        <input type="text" name="title" placeholder="Title" required>
+        <input type="text" name="category" placeholder="Category">
+        <textarea name="text" placeholder="Write your blog here"></textarea>
         <div id="btnContainer">
             <a id="btn" class="btn btn-outline-dark" href="/me/">Cancel</a>
             <button id="btn" class="btn btn-outline-dark" type="submit">Submit</button>
