@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block head %}
 <title>{{ blog.title }}</title>
 <style>
@@ -40,9 +41,17 @@
     width: 350px;
     height: 40px;
     margin: 0 auto;
+    border-radius: 10px;
+    border: 1px lightgray solid;
   }
 
   #formInput:focus {
+    border: 1px black solid;
+    outline: none;
+  }
+
+  #formInput:hover {
+    border: 1px black solid;
     outline: none;
   }
 
@@ -119,7 +128,7 @@
       <form id="form" action="{% url 'submit_review' blog.id %}" method="POST">
         {% csrf_token %}
         <h5>Review</h5>
-        <input id="formInput" placeholder="Write your review" name="comment" rows="4"></input>
+        <input id="formInput" placeholder="Write your review" name="comment" rows="4" required></input>
         <br>
         {% if request.user.is_authenticated %}
         <button id="btn" type="submit" class="btn btn-outline-dark">Submit Review</button>
@@ -131,8 +140,12 @@
       <div style="text-align: center;">
         {% for comment in comments %}
         <div id="reviewerInfoBox">
+          {% if comment.profile.image %}
           <img id="reviewerImage" src="{{ comment.profile.image.url }}"
             alt="Profile image of user who commented on this blog and this is his/her comment.">
+          {% else %}
+            <img id="reviewerImage" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
+          {% endif %}
           <div>
             <strong>
               {{ comment.profile.user.first_name }} {{ comment.profile.user.last_name }}
