@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block head %}
 <title>{{ users.fname }} {{ users.lname }}</title>
 <style>
@@ -80,9 +81,9 @@
 <div id="container" class="container text-center">
     <div id="imageBox">
         {% if users.image %}
-        <img id="img" src="{{ users.image.url }}" alt="User Image">
+            <img id="img" src="{{ users.image.url }}" alt="User Image">
         {% else %}
-        <p>No profile image available.</p>
+            <img id="img" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">    
         {% endif %}
     </div>
     <div id="infoBox">
