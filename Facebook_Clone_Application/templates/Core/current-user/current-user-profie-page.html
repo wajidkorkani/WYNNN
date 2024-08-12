@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block head %}
 <title>{{ user_profile.user.first_name }} {{ user_profile.user.last_name }}</title>
 <style>
@@ -83,9 +84,9 @@
     {% if user_profile %}
     <div id="imageBox">
         {% if user_profile.image %}
-        <img id="img" src="{{ user_profile.image.url }}">
+            <img id="img" src="{{ user_profile.image.url }}">
         {% else %}
-        <h2> Profile image does not exist. </h2>
+            <img id="img" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
         {% endif %}
     </div>
     <div id="infoBox">
