@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block head %}
 <title>{{ profile.user.first_name }} {{ profile.user.last_name }}</title>
 <style>
@@ -44,8 +45,15 @@
     <div id="container">
         <div id="ltd">
                 <a href="{% url 'all_users_profile_page' blog.profile.id %}">
-                <img id="profileImage" src="{{ blog.profile.image.url }}" alt="Profile image of the user who uploaded this blog.">
-                </a>
+                {% if blog.profile.image %}
+                    <a href="{% url 'all_users_profile_page' blog.profile.id %}">
+                        <img id="profileImage" src="{{ blog.profile.image.url }}" alt="Profile image of the user who uploaded this blog.">
+                    </a>
+                {% else %}
+                    <a href="{% url 'all_users_profile_page' blog.profile.id %}">
+                        <img id="profileImage" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
+                    </a>
+                {% endif %}
                 <a href="{% url 'all_users_profile_page' blog.profile.id %}">
                 <div>
                     <strong>
