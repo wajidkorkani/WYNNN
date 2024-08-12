@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block head %}
 <title>Story Book | Blogs</title>
 <style>
@@ -50,10 +51,14 @@
   <div id="container">
     <div id="ltd">
       <a href="{% url 'all_users_profile_page' blog.profile.id %}">
-        <img id="profileImage" src="{{ blog.profile.image.url }}"
-          alt="Profile image of the user who uploaded this blog.">
-      </a>
-      <a href="{% url 'all_users_profile_page' blog.profile.id %}">
+      {% if blog.profile.image %}
+        <a href="{% url 'all_users_profile_page' blog.profile.id %}">
+          <img id="profileImage" src="{{ blog.profile.image.url }}"
+            alt="Profile image of the user who uploaded this blog.">
+        </a>
+      {% else %}
+        <img id="profileImage" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
+      {% endif %}
         <div>
           <strong>
             {{ blog.profile.user.first_name }} {{ blog.profile.user.last_name }}
