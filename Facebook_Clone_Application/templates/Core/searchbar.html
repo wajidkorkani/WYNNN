@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block head %}
 <title>Story Book | Search Results</title>
 
@@ -123,6 +124,8 @@
         <div id="userInfoSearchBox">
             {% if search.image %}
                 <img id="img" src="{{ search.image.url }}">
+            {% else %}
+                <img id="postUserImg" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
             {% endif %}
             <strong>{{ search.user.first_name }} {{ search.user.last_name }}</strong>
         </div>
@@ -132,6 +135,8 @@
         <div id="userInfoSearchBox">
             {% if search.image %}
                 <img id="Img" src="{{ search.image.url }}" alt="user image">
+            {% else %}
+                <img id="postUserImg" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
             {% endif %}
             <strong>{{ search.user.first_name }} {{ search.user.last_name }}</strong>
         </div>
@@ -146,6 +151,8 @@
     <div id="userInfoSearchBox">
         {% if search.image %}
             <img id="img" src="{{ search.image.url }}">
+        {% else %}
+            <img id="postUserImg" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
         {% endif %}
         <strong>{{ search.user.first_name }} {{ search.user.last_name }}</strong>
     </div>
@@ -155,6 +162,8 @@
     <div id="userInfoSearchBox">
         {% if search.image %}
             <img id="img" src="{{ search.image.url }}">
+        {% else %}
+            <img id="postUserImg" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
         {% endif %}
         <strong>{{ search.user.first_name }} {{ search.user.last_name }}</strong>
     </div>
@@ -170,7 +179,9 @@
         <a id="postUserImgBox" class='btn' href="{% url 'current_user_profile' %}">
             {% if search.profile.image %}
                 <img id="postUserImg" src="{{ search.profile.image.url }}">
-            {% endif %}
+            {% else %}
+                <img id="postUserImg" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
+                {% endif %}
             <div>
                 <strong>{{ search.profile.user.first_name }} {{ search.profile.user.last_name }}</strong>
                 <p>{{ search.time_stamp.date }}</p>
@@ -180,6 +191,8 @@
         <a id="postUserImgBox" class='btn' href="{% url 'all_users_profile_page' search.profile.id %}">
             {% if search.profile.image %}
                 <img id="postUserImg" src="{{ search.profile.image.url }}">
+            {% else %}
+                <img id="postUserImg" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
             {% endif %}
             <div>
                 <strong>{{ search.profile.user.first_name }} {{ search.profile.user.last_name }}</strong>
@@ -208,6 +221,8 @@
         <a id="postUserImgBox" class='btn' href="{% url 'current_user_profile' %}">
             {% if search.profile.image %}
                 <img id="postUserImg" src="{{ search.profile.image.url }}">
+            {% else %}
+                <img id="postUserImg" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
             {% endif %}
             <div>
                 <strong>{{ search.profile.user.first_name }} {{ search.profile.user.last_name }}</strong>
@@ -218,6 +233,8 @@
         <a id="postUserImgBox" class='btn' href="{% url 'all_users_profile_page' search.profile.id %}">
             {% if search.profile.image %}
                 <img id="postUserImg" src="{{ search.profile.image.url }}">
+            {% else %}
+                <img id="postUserImg" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
             {% endif %}
             <div>
                 <strong>{{ search.profile.user.first_name }} {{ search.profile.user.last_name }}</strong>
@@ -232,8 +249,6 @@
             <br>
             {% if search.image %}
                 <img id="postImg" src="{{ search.image.url }}" alt="blog image">
-            {% else %}
-                <img id="postImg" src="" alt="blog image">
             {% endif %}
         </a>
     </div>
@@ -249,6 +264,8 @@
         <a id="postUserImgBox" class='btn' href="{% url 'current_user_profile' %}">
             {% if search.profile.image %}
                 <img id="postUserImg" src="{{ search.profile.image.url }}">
+            {% else %}
+                <img id="postUserImg" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
             {% endif %}
             <div>
                 <strong>{{ search.profile.user.first_name }} {{ search.profile.user.last_name }}</strong>
@@ -259,6 +276,8 @@
         <a id="postUserImgBox" class='btn' href="{% url 'all_users_profile_page' search.profile.id %}">
             {% if search.profile.image %}
                 <img id="postUserImg" src="{{ search.profile.image.url }}">
+            {% else %}
+                <img id="postUserImg" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
             {% endif %}
             <div>
                 <strong>{{ search.profile.user.first_name }} {{ search.profile.user.last_name }}</strong>
@@ -273,8 +292,6 @@
             <br>
             {% if search.image %}
                 <img id="postImg" src="{{ search.image.url }}" alt="blog image">
-            {% else %}
-                <img id="postImg" src="" alt="blog image">
             {% endif %}
         </a>
     </div>
@@ -290,6 +307,8 @@
         <a id="postUserImgBox" class='btn' href="{% url 'current_user_profile' %}">
             {% if search.profile.image %}
                 <img id="postUserImg" src="{{ search.profile.image.url }}">
+            {% else %}
+                <img id="postUserImg" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
             {% endif %}
             <div>
                 <strong>{{ search.profile.user.first_name }} {{ search.profile.user.last_name }}</strong>
@@ -300,6 +319,8 @@
         <a id="postUserImgBox" class='btn' href="{% url 'all_users_profile_page' search.profile.id %}">
             {% if search.profile.image %}
                 <img id="postUserImg" src="{{ search.profile.image.url }}">
+            {% else %}
+                <img id="postUserImg" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
             {% endif %}
             <div>
                 <strong>{{ search.profile.user.first_name }} {{ search.profile.user.last_name }}</strong>
