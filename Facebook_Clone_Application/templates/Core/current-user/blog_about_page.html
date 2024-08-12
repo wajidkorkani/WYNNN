@@ -105,7 +105,11 @@
 {% include "navbar.html" %}
 <div style="text-align: center; margin-left: 30px; margin-right: 30px;">
   <div id="userInfoBox">
-    <img id="ownerImg" src="{{ blog.profile.image.url }}" alt="Owner's profile image.">
+    {% if blog.profile.image %}
+      <img id="ownerImg" src="{{ blog.profile.image.url }}" alt="Owner's profile image.">
+    {% else %}
+      <img id="ownerImg" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
+    {% endif %}
     <div>
       <strong>{{ blog.profile.user.first_name }} {{ blog.profile.user.last_name }}</strong>
       <p>{{ blog.time_stamp.date }}</p>
