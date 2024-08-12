@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block head %}
 <title>{{ blog.title }}</title>
 
@@ -68,7 +69,11 @@
 {% include "navbar.html" %}
 <div style="text-align: center; margin-left: 30px; margin-right: 30px;">
     <div id="userInfoBox">
+      {% if comment.profile.image %}
         <img id="ownerImg" src="{{ comment.profile.image.url }}" alt="Image of user's profile who posted this comment.">
+      {% else %}
+      <img id="ownerImg" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
+      {% endif %}
         <div>
             <strong>{{ comment.profile.user.first_name }} {{ comment.profile.user.last_name }}</strong>
             <p>{{ comment.time_stamp.date }}</p>
