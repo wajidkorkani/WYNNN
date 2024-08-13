@@ -24,6 +24,21 @@
         color: black;
     }
 
+    #infoContainer{
+        width: 300px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 auto;
+    }
+
+    #ltbox {
+        display: flex;
+        margin: 0 auto;
+        width: 150px;
+        padding: 20px;
+    }
+
     #linkBox{
         text-decoration: none;
         margin: 0 auto;
@@ -85,7 +100,7 @@
         border-radius: 50%;
     }
 
-    #postImg{
+    #postImage{
         margin: 0 auto;
         max-width: 260px;
         max-height: 260px;
@@ -128,14 +143,31 @@
         </a>
     {% endif %}
     <br>
-    <div id="postBox">
-        <p>{{ post.capution }}</p>
-        {% if post.image %}
-        <br>
-        <img id="postImg" src="{{ post.image.url }}">
-        <br><br>
-        {% endif %}
+    <div id="infoContainer">
+        <div>
+            {% if post.capution %}
+            <p id="postCaption">{{ post.capution }}</p>
+            {% endif %}
+        </div>
+        <div id="ltbox">
+            {% if user in post.likes.all %}
+            <div style="display: flex; margin: 0 auto; max-width: 200px;">
+                <p>{{ post.likes.count }}  </p> <a href="{% url 'post_likes' post.id %}"><img style="width: 40px;"
+                        src="{% static 'images/like.png' %}" alt="Unlike"></a>
+            </div>
+            {% else %}
+            <div style="display: flex; margin: 0 auto; max-width: 200px;">
+                <p>{{ post.likes.count }} </p> <a href="{% url 'post_likes' post.id %}"><img style="width: 40px;"
+                        src="{% static 'images/unlike.png' %}" alt="Like"></a>
+            </div>
+            {% endif %}
+        </div>
     </div>
+    {% if post.image %}
+    <img id="postImage" src="{{ post.image.url }}">
+    {% endif %}
+    <br><br>
+    <hr><br><br>
     <br>
 </div>
 <br>
