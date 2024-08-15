@@ -44,6 +44,14 @@ class Change_User_Profile_Image(LoginRequiredMixin, UpdateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+# This view is for to delete own profile
+class Delete_Profile(DeleteView):
+    model = UserProfile
+    fields = '__all__'
+    template_name = 'Core/current-user/delete_profile.html'
+    success_url = '/home/'
+
+
 # Current user profile page
 @login_required
 def current_user_profile(request):
