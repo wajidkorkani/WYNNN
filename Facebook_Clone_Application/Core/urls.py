@@ -15,6 +15,7 @@ urlpatterns = [
     path('create-user-profile/', Create_User_Profile.as_view(), name='Create_User_Profile'),
     path('changeImage<int:pk>', Change_User_Profile_Image.as_view(), name="change_image"),
     path('me/', current_user_profile, name='current_user_profile'),
+    path('delete-profile/<int:pk>/', Delete_Profile.as_view(), name='delete_profile'),
 
     # Blog urls section
     path('blog/<int:pk>/', Create_Blog.as_view(), name='create_blog'),
