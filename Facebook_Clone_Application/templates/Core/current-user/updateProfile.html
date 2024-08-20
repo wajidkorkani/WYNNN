@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Story Book</title>
+<style>
+    input{
+        border: 1px lightgray solid;
+        text-align: center;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        height: 40px;
+        width: 200px;
+    }
+    input:hover{
+        outline: none;
+        border: 1px black solid;
+    }
+    input:focus{
+        outline: none;
+        border: 1px black solid;
+    }
+</style>
+{% endblock %}
+{% block body %}
+{% include 'navbar.html' %}
+<div style="text-align:center">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br>
+        <a href="{% url 'current_user_profile' %}" class="btn btn-outline-dark">Cancel</a>
+        <button class="btn btn-outline-dark" type="submit">Update</button>
+    </form>
+</div>
+<br>
+{% include 'footer.html' %}
+{% endblock %}
