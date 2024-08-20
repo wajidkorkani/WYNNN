@@ -54,7 +54,7 @@ class Delete_Profile(DeleteView):
 # This view is for update profile
 class Update_Profile(UpdateView):
     model = UserProfile
-    fields = '__all__'
+    fields = ['email', 'fname', 'lname', 'city', 'country']
     template_name = 'Core/current-user/updateProfile.html'
     success_url = '/me/'
 
