@@ -1,3 +1,4 @@
+{% load static %}
 <style>
   #SearchInputField{
     border: 1px lightgray solid;
@@ -13,7 +14,7 @@
 </style>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <a class="navbar-brand" href="{% url 'home' %}">Story Book</a>
+      <a class="navbar-brand" href="{% url 'home' %}">Storybook</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -37,8 +38,8 @@
         </ul>
         <form class="d-flex" method="POST" action="{% url 'searchbar' %}">
           {% csrf_token %}
-          <input id="SearchInputField" type="search" placeholder="Search" aria-label="Search" name='searched'>
-          <button class="btn btn-outline-dark" type="submit">Search</button>
+          <input style="    border: 1px lightgray solid; border-radius: 10px; padding: 5px; margin-right: 10px; height: 42px;" id="SearchInputField" type="search" placeholder="Search" aria-label="Search" name='searched'>
+          <button style="height: 42px;" class="btn btn-outline-dark" type="submit">Search</button>
         </form>
       </div>
     </div>
