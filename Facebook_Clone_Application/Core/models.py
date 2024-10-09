@@ -4,6 +4,8 @@ from unicodedata import category
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+from django.utils.safestring import mark_safe
+import re
 # Create your models here.
 class UserProfile(models.Model):
     image = models.ImageField(upload_to='media/', null=True, blank=True)
@@ -57,3 +59,16 @@ class BlogCommentReply(models.Model):
     ip = models.CharField(max_length=20, blank=True)
     time_stamp = models.DateTimeField(auto_now=True)
 
+# This model is for AI chat
+class Chat(models.Model):
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
+    question = models.CharField(max_length=10000000, null=True, blank=True)
+    answer = models.TextField(null=True, blank=True)
+
+    def get_linked_text(self):
+        url_pattern = r'(https?://[^\s]+)'
+        linked_text = re.sub(url_pattern, r'<a href="\1">\1</a>', self.answer)
+        return mark_safe(linked_text)
+
+    def __str__(self):
+        return "AI Chat!"
