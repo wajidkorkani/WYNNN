@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, UpdateView, DeleteView
-from .forms import CommentForm, ReplyForm
+from .forms import CommentForm, ReplyForm, AIChatForm
 from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 # This view is for landing page or home page 
@@ -290,3 +291,50 @@ def all_users_blogs(request, slug, pk):
         'profile':profile
     }
     return render(request, template, context)
+
+
+# This is message section
+@login_required
+def AIChat(request):
+    try:
+        profile = get_object_or_404(UserProfile, user=request.user)
+        chatData = Chat.objects.filter(user=profile).order_by('-id')
+        template = "aiChat.html"
+        context = {
+            'chatData' : chatData
+        }
+        return render(request, template, context)
+    except:
+        return redirect('/create-user-profile/')
+
+import google.generativeai as genai
+API_KEY = ""
+genai.configure(api_key=API_KEY)
+model = genai.GenerativeModel("gemini-1.5-flash")
+
+# This is method will send question and receive answer
+def chatWithAI(request):
+    if request.method == 'POST':
+        url = request.META.get('HTTP_REFERER')
+        question = request.POST.get('ask')
+        answer = model.generate_content([question])
+        profile = get_object_or_404(UserProfile, user=request.user)
+        if answer and answer.text:
+            form = AIChatForm(request.POST)
+            if form.is_valid():
+                data = Chat()
+                data.user = profile
+                data.question = request.POST.get('ask')
+                data.answer = answer.text.replace('*', ' ',).strip()
+                data.ip = request.META.get('REMOTE_ADDR')
+                data.save()
+                cleaner()
+                return redirect(url)
+
+def cleaner():
+    trashes = list(Chat.objects.all())
+    while len(trashes) > 5:
+        trash = trashes[0]
+        trash.delete()
+        trashes.remove(trash)
+    return redirect('chatWithAI')
