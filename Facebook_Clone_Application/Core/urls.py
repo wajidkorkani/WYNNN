@@ -36,4 +36,8 @@ urlpatterns = [
     # Searchbar url
     path('search/', searchbar, name='searchbar'),
 
+    # messageSection
+    path('ai', AIChat, name='AIChat'),
+    path('chatWithAI', chatWithAI, name='chatWithAI')
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
