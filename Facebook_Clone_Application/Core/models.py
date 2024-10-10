@@ -28,10 +28,18 @@ class UserPost(models.Model):
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     image = models.ImageField(upload_to='media/', blank=True, null=True)
     capution = models.CharField(max_length=2000)
-    likes = models.ManyToManyField(User, related_name="Post_likes", blank=True)
+    likes = models.ManyToManyField(UserProfile, related_name="Post_likes", blank=True)
     time_stamp = models.DateTimeField(auto_now=True)
 
+class PostComment(models.Model):
+    post = models.ForeignKey(UserPost, on_delete=models.CASCADE)
+    profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
+    comment = models.CharField(max_length=500, blank=True)
+    ip = models.CharField(max_length=20, blank=True)
+    time_stamp = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f"{self.profile.user.first_name} has commented on {self.post.profile.user.first_name}'s post."
 
 class Blog(models.Model):
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)

@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<title>Post Comments</title>
+<style>
+  #userInfoBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  #ownerImg {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+  }
+
+  #reviewerInfoBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  #reviewerImage {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+  }
+
+
+  #form {
+    margin: 0 auto;
+    width: 50%;
+    border-color: black;
+  }
+
+  #formInput {
+    text-align: center;
+    width: 350px;
+    height: 40px;
+    margin: 0 auto;
+    border-radius: 10px;
+    border: 1px lightgray solid;
+  }
+
+  #formInput:focus {
+    border: 1px black solid;
+    outline: none;
+  }
+
+  #formInput:hover {
+    border: 1px black solid;
+    outline: none;
+  }
+
+  #formMainBox {
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  #btn{
+    margin-top: 20px;
+  }
+
+  #formMiniBox {
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  @media(max-width:767px) {
+    #img {
+      width: 300px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    #formInput {
+      text-align: center;
+      width: 200px;
+      height: 40px;
+      margin: 0 auto;
+    }
+  }
+
+  @media(min-width:768px) {
+    #img {
+      width: 450px;
+      border-radius: 30px;
+      margin-bottom: 20px;
+    }
+  }
+
+  @media(min-width:1024px) {
+    #img {
+      width: 700px;
+      border-radius: 40px;
+      margin-bottom: 20px;
+    }
+  }
+</style>
+{% endblock%}
+{% block body %}
+{% include "navbar.html" %}
+<div style="text-align: center; margin-left: 30px; margin-right: 30px;">
+  <div id="userInfoBox">
+    {% if post.profile.image %}
+      <img id="ownerImg" src="{{ post.profile.image.url }}" alt="Owner's profile image.">
+    {% else %}
+      <img id="ownerImg" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
+    {% endif %}
+    <div>
+      <strong>{{ post.profile.user.first_name }} {{ post.profile.user.last_name }}</strong>
+      <p>{{ post.time_stamp.date }}</p>
+    </div>
+  </div>
+  <br>
+  <p>{{ post.capution }}</p>
+  <br>
+  <img id="img" src="{{ post.image.url }}">
+  <br>
+  <hr>
+  <br>
+  <div id="formMainBox">
+    <div id="formMiniBox">
+
+        <div style="text-align: center;">
+            {% for comment in comments %}
+            <div id="reviewerInfoBox">
+              {% if comment.profile.image %}
+              <img id="reviewerImage" src="{{ comment.profile.image.url }}"
+                alt="Profile image of user who commented on this blog and this is his/her comment.">
+              {% else %}
+                <img id="reviewerImage" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
+              {% endif %}
+              <div>
+                <strong>
+                  {{ comment.profile.user.first_name }} {{ comment.profile.user.last_name }}
+                </strong>
+                <p>{{ comment.time_stamp.date }}</p>
+              </div>
+            </div>
+            <br>
+            <p>{{ comment.comment }}</p>
+            <br>
+            {% if comment.image %}
+            <img style="max-width: 200px;" src="{{ comment.image.url }}">
+            <br>
+            <br>
+            {% endif %}
+
+        <br>
+        {% endfor %}
+        <form id="form" action="{% url 'postComment' post.id %}" method="POST">
+            {% csrf_token %}
+            <h5>Comments</h5>
+            <input id="formInput" placeholder="Write your review" name="comment" rows="4" required></input>
+            <br>
+            {% if request.user.is_authenticated %}
+            <button id="btn" type="submit" class="btn btn-outline-dark">Submit Comment</button>
+            {% else %}
+            <p>You must be logged in to comment on any post. <span><a href="{% url 'login' %}">Login now</a></span></p>
+            {% endif %}
+          </form>
+      </div>
+    </div>
+
+<br>
+
+{% include "footer.html" %}
+
+{% endblock %}
