@@ -20,12 +20,7 @@ def home(request):
         }
         return render(request, template, context)
     except:
-        posts = UserPost.objects.all().order_by('-time_stamp')
-        template = 'Core/home.html'
-        context = {
-            'posts': posts
-        }
-        return render(request, template, context)
+        return redirect('/create-user-profile/')
 
 
 
