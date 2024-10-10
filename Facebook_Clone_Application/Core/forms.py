@@ -10,6 +10,11 @@ class ReplyForm(forms.ModelForm):
         model = BlogCommentReply
         fields = ['reply']
 
+class PostCommentForm(forms.ModelForm):
+    class Meta:
+        model = PostComment
+        fields = ['comment']
+
 class AIChatForm(forms.ModelForm):
     class Meta:
         model = Chat

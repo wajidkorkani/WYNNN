@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, UpdateView, DeleteView
-from .forms import CommentForm, ReplyForm, AIChatForm
+from .forms import CommentForm, ReplyForm, AIChatForm, PostCommentForm
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -10,13 +10,22 @@ from django.contrib.auth.decorators import login_required
 # This view is for landing page or home page 
 @login_required
 def home(request):
-    posts = UserPost.objects.all().order_by('-time_stamp')
-    template = 'Core/home.html'
-    context = {
-        'posts': posts,
-    }
-    return render(request, template, context)
-
+    try:
+        profile = get_object_or_404(UserProfile, user=request.user)
+        posts = UserPost.objects.all().order_by('-time_stamp')
+        template = 'Core/home.html'
+        context = {
+            'posts': posts,
+            'profile': profile,
+        }
+        return render(request, template, context)
+    except:
+        posts = UserPost.objects.all().order_by('-time_stamp')
+        template = 'Core/home.html'
+        context = {
+            'posts': posts
+        }
+        return render(request, template, context)
 
 
 
@@ -94,7 +103,7 @@ def post_likes(request, pk):
     url = request.META.get('HTTP_REFERER')
     post = UserPost.objects.filter(id=pk).first()
     if post is not None:
-        if post.likes.filter(userprofile__id=profile.id).exists():
+        if post.likes.filter(id=profile.id).exists():
             post.likes.remove(profile.id)
         else:
             post.likes.add(profile.id)
@@ -113,6 +122,31 @@ def current_user_posts(request, slug, pk):
         }
     return render(request, template, context)
 
+# This method is for submiting comment on post.
+@login_required
+def postComment(request, pk):
+    url = request.META.get('HTTP_REFERER')
+    profile = get_object_or_404(UserProfile, user=request.user)
+    if request.method == 'POST':
+        form = PostCommentForm(request.POST)
+        if form.is_valid():
+            data = PostComment()
+            data.comment = form.cleaned_data['comment']
+            data.ip = request.META.get('REMOTE_ADDR')
+            data.post_id = pk
+            data.profile_id = profile.id
+            data.save()
+            return redirect(url)
+
+def postCommentsPage(request, pk):
+    post = get_object_or_404(UserPost, id=pk)
+    comments = PostComment.objects.filter(post=post)
+    template = 'Core/all-users/postCommentsPage.html'
+    context = {
+        "post":post,
+        "comments":comments
+    }
+    return render(request, template, context)
 
 # This view is for to delete own posts
 class Delete_Post(DeleteView):
@@ -308,7 +342,7 @@ def AIChat(request):
         return redirect('/create-user-profile/')
 
 import google.generativeai as genai
-API_KEY = ""
+API_KEY = "AIzaSyAH6Ct5-gqY4F_EM9LAc6K2u7UqxX32FjM"
 genai.configure(api_key=API_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash")
 

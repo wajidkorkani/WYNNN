@@ -10,6 +10,8 @@ urlpatterns = [
     path('<int:pk>/post/like/', post_likes, name='post_likes'),
     path('<slug:slug>/posts/<int:pk>/', current_user_posts, name='current_user_posts'),
     path('delete-post/<int:pk>/', Delete_Post.as_view(), name='delete_post'),
+    path('postCommentsPage/<int:pk>/', postCommentsPage, name='postCommentsPage'),
+    path('postComment/<int:pk>/', postComment, name='postComment'),
 
     # Profile section
     path('create-user-profile/', Create_User_Profile.as_view(), name='Create_User_Profile'),
