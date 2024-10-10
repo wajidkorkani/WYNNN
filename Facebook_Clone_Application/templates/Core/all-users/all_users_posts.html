@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block head %}
-<title>Story Book</title>
+<title>{{ profile.user.first_name }} {{ profile.user.last_name }}</title>
 <style>
     #ltbox {
         display: flex;

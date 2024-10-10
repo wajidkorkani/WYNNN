@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block head %}
-<title>Create Profile</title>
+<title>{{ request.user.first_name }} {{ request.user.last_name }}</title>
 
 <style>
     #mainContainer{

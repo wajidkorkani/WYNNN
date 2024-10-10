@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block head %}
-<title>Story Book</title>
+<title>{{ request.user.first_name }} {{ request.user.last_name }}</title>
 {% endblock %}
 {% block body %}
 {% include 'navbar.html' %}
