@@ -67,7 +67,11 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'current_user_profile' %}"> 
-              <img id="profileNavImage" src="{{ profile.image.url }}" id="profileNavImage" alt="Profile Image"  data-bs-toggle="tooltip" data-bs-title="My profile">
+              {% if user.is_authenticated %}
+                {% if profile.image %}
+                  <img id="profileNavImage" src="{{ profile.image.url }}" id="profileNavImage" alt="Profile Image"  data-bs-toggle="tooltip" data-bs-title="My profile">
+                {% endif %}
+              {% endif %}
             </a>
           </li>
           <li class="nav-item">
