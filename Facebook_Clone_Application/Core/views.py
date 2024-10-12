@@ -337,7 +337,7 @@ def AIChat(request):
         return redirect('/create-user-profile/')
 
 import google.generativeai as genai
-API_KEY = "AIzaSyAH6Ct5-gqY4F_EM9LAc6K2u7UqxX32FjM"
+API_KEY = ""
 genai.configure(api_key=API_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash")
 
