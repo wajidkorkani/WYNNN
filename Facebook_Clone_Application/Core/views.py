@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, UpdateView, DeleteView
 from .forms import CommentForm, ReplyForm, AIChatForm, PostCommentForm
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Count
 # Create your views here.
 
 # This view is for landing page or home page 
@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 def home(request):
     try:
         profile = get_object_or_404(UserProfile, user=request.user)
-        posts = UserPost.objects.all().order_by('-time_stamp')
+        posts = UserPost.objects.all().order_by('-time_stamp').annotate(comment_count=Count('postcomment'))
         template = 'Core/home.html'
         context = {
             'posts': posts,
