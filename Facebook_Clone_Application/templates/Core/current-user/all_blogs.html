@@ -50,20 +50,37 @@
 <div class="container" id="div">
   <div id="container">
     <div id="ltd">
-      <a href="{% url 'all_users_profile_page' blog.profile.id %}">
-      {% if blog.profile.image %}
-        <a href="{% url 'all_users_profile_page' blog.profile.id %}">
-          <img id="profileImage" src="{{ blog.profile.image.url }}"
-            alt="Profile image of the user who uploaded this blog.">
-        </a>
-      {% else %}
-        <img id="profileImage" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
+        {% if request.user.id == blog.profile.user.id %}
+          <a href="{% url 'current_user_profile' %}">
+          {% if blog.profile.image %}
+            <a href="{% url 'current_user_profile' %}">
+              <img id="profileImage" src="{{ blog.profile.image.url }}"
+                alt="Profile image of the user who uploaded this blog.">
+            </a>
+          {% else %}
+            <img id="profileImage" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
+          {% endif %}
+            <div>
+              <strong>
+                {{ blog.profile.user.first_name }} {{ blog.profile.user.last_name }}
+              </strong>
+          </a>
+        {% else %}
+          <a href="{% url 'all_users_profile_page' blog.profile.id %}">
+          {% if blog.profile.image %}
+            <a href="{% url 'all_users_profile_page' blog.profile.id %}">
+              <img id="profileImage" src="{{ blog.profile.image.url }}"
+                alt="Profile image of the user who uploaded this blog.">
+            </a>
+          {% else %}
+            <img id="profileImage" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
+          {% endif %}
+            <div>
+              <strong>
+                {{ blog.profile.user.first_name }} {{ blog.profile.user.last_name }}
+              </strong>
+          </a>
       {% endif %}
-        <div>
-          <strong>
-            {{ blog.profile.user.first_name }} {{ blog.profile.user.last_name }}
-          </strong>
-      </a>
       <p>{{ blog.time_stamp.date }}</p>
     </div>
   </div>
