@@ -12,7 +12,7 @@
         border: none;
         width: 350px;
     }
-    
+
 
     strong{
         font-size: 20px;
@@ -134,7 +134,7 @@
     <a id="linkBox" class='btn' href="{% url 'all_users_profile_page' search.id %}">
         <div id="userInfoSearchBox">
             {% if search.image %}
-                <img id="Img" src="{{ search.image.url }}" alt="user image">
+                <img id="img" src="{{ search.image.url }}" alt="user image">
             {% else %}
                 <img id="postUserImg" src="{% static 'images/profile_image.png' %}" alt="User doesn't have any profile image.">
             {% endif %}
