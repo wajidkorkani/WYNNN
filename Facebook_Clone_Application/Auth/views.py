@@ -8,13 +8,11 @@ import random
 def generate_otp():
     return str(random.randint(1000, 9999))
 
-otp = generate_otp()
-
 def Registration(request):
     if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            request.session['signup_otp'] = otp
+            request.session['signup_otp'] = generate_otp()
             request.session['signup_username'] = form.cleaned_data['username']
             request.session['signup_fname'] = form.cleaned_data['first_name']
             request.session['signup_lname'] = form.cleaned_data['last_name']
@@ -44,7 +42,7 @@ def verify_otp(request):
         else:
             return render(request, 'auth/verify_otp.html', {'error_message': f"Please enter this OTP {otp}"})
     template = 'Auth/verify_otp.html'
-    context = {'otp': otp}
+    context = {'otp': request.session['signup_otp']}
     return render(request, template, context)
 
 
