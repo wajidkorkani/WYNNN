@@ -300,11 +300,12 @@ def all_users_profile_page(request, pk):
 @login_required
 def all_users_posts(request, slug, pk):
     profile = get_object_or_404(UserProfile, slug=slug, id=pk)
-    posts = UserPost.objects.filter(profile=profile).order_by('-time_stamp')
+    current_user_profile = get_object_or_404(UserProfile, user=request.user)
+    posts = UserPost.objects.filter(profile=profile).order_by('-time_stamp').annotate(comment_count=Count('postcomment'))
     template = 'Core/all-users/all_users_posts.html'
     context = {
         'posts': posts,
-        'profile':profile
+        'profile':current_user_profile
     }
     return render(request, template, context)
 
