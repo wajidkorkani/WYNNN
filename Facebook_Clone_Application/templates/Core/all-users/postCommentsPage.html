@@ -118,7 +118,9 @@
   <br>
   <p>{{ post.capution }}</p>
   <br>
-  <img id="img" src="{{ post.image.url }}">
+  {% if post.image %}
+    <img id="img" src="{{ post.image.url }}">
+  {% endif %}
   <br>
   <hr>
   <br>
