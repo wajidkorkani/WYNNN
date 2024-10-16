@@ -3,6 +3,105 @@
 {% block head %}
 <title>{{ request.user.first_name }} {{ request.user.last_name }}</title>
 <style>
+
+    #infoContainer{
+        width: 300px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 auto;
+    }
+
+    #ltbox {
+        display: flex;
+        margin: 0 auto;
+        width: 150px;
+        padding: 30px;
+    }
+    #postComments{
+        margin: 0 auto;
+        padding: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #linkBox{
+        text-decoration: none;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px lightgray solid;
+        width: 350px;
+        border-radius: 20px;
+    }
+
+    #linkBox:hover{
+        border: 1px black solid;
+    }
+
+    #img{
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+    }
+
+    #postMainBox{
+        width: 300px;
+        margin: 0 auto;
+        text-align: center;
+        border: 1px lightgray solid;
+        border-radius: 20px;
+    }
+
+    #postMainBox:hover{
+        border: 1px solid black;
+    }
+
+    #postBox{
+        text-align: center;
+        margin: 0 auto;
+        width: 270px;
+        height: 270px;
+    }
+
+    #postUserImgBox{
+        width: 250px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    #postUserImgBox:hover{
+        border: 1px black solid;
+        border-radius: 20px;
+    }
+
+    #postUserImg{
+        margin: 0 auto;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+    }
+
+    #postImage{
+        margin: 0 auto;
+        max-width: 260px;
+        max-height: 260px;
+        border-radius: 20px;
+    }
+
+    h1{
+        font-size: medium;
+    }
+
+    #postCaption{
+        text-align: center;
+        padding-left: 25px;
+        padding-right: 25px;
+    }
     #ltbox {
         display: flex;
         margin: 0 auto;
@@ -43,47 +142,83 @@
 {% include "navbar.html" %}
 <div class="container text-center">
     {% if posts %}
-    {% for post in posts %}
-    <div id="userInfoBox">
-        <img id="ownerImage" src="{{ post.profile.image.url }}" alt="Profile of the user who uploaded this post">
-        <div>
-            <strong>
-                {{ post.profile.user.first_name }} {{ post.profile.user.last_name }}
-            </strong>
-            <p>{{ post.time_stamp.date }}</p>
-        </div>
-    </div>
-    <div id="infoContainer">
-        <div>
-            {% if post.capution %}
-            <p id="postCaption">{{ post.capution }}</p>
-            {% endif %}
-        </div>
-        <div id="ltbox">
-            <a href="{% url 'delete_post' post.id %}" class="btn btn-outline-dark"><svg xmlns="http://www.w3.org/2000/svg"
+        {% for post in posts %}
+            <div id="postMainBox">
+                <br>
+                {% if request.user.id == post.profile.user.id %}
+                    <a id="postUserImgBox" class='btn' href="{% url 'current_user_profile' %}">
+                        {% if post.profile.image %}
+                            <img id="postUserImg" src="{{ post.profile.image.url }}">
+                        {% endif %}
+                        <div>
+                            <strong>{{ post.profile.user.first_name }} {{ post.profile.user.last_name }}</strong>
+                            <p>{{ post.time_stamp.date }}</p>
+                        </div>
+                    </a>
+                {% else %}
+                    <a id="postUserImgBox" class='btn' href="{% url 'all_users_profile_page' post.profile.id %}">
+                        {% if post.profile.image %}
+                            <img id="postUserImg" src="{{ post.profile.image.url }}">
+                        {% endif %}
+                        <div>
+                            <strong>{{ post.profile.user.first_name }} {{ post.profile.user.last_name }}</strong>
+                            <p>{{ post.time_stamp.date }}</p>
+                        </div>
+                    </a>
+                {% endif %}
+                <br>
+                <div>
+                    {% if post.capution %}
+                        <p id="postCaption">{{ post.capution }}</p>
+                    {% endif %}
+                </div>
+                {% if post.image %}
+                    <img id="postImage" src="{{ post.image.url }}">
+                {% endif %}
+                <br>
+                <hr>
+                <div id="infoContainer">
+
+                    <div id="postComments">
+                        {% if profile in post.likes.all %}
+                            <a href="{% url 'postCommentsPage' post.id %}">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="35px" viewBox="0 -960 960 960" width="35px" fill="black"><path d="M240-400h480v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM880-80 720-240H160q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720ZM160-320h594l46 45v-525H160v480Zm0 0v-480 480Z"/></svg>
+                            </a>
+                            <p>{{ post.comment_count }}</p>
+                        {% else %}
+                            <a href="{% url 'postCommentsPage' post.id %}">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="35px" viewBox="0 -960 960 960" width="35px" fill="gray"><path d="M240-400h480v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM880-80 720-240H160q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720ZM160-320h594l46 45v-525H160v480Zm0 0v-480 480Z"/></svg>
+                            </a>
+                            <p>{{ post.comment_count }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div id="postComments">
+                        <a href="{% url 'delete_post' post.id %}" class="btn btn-outline-dark"><svg xmlns="http://www.w3.org/2000/svg"
                     width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
                     <path
                         d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
-                </svg></a>
-            {% if user in post.likes.all %}
-            <div style="display: flex; margin: 0 auto; max-width: 200px;">
-                <p>{{ post.likes.count }}  </p> <a href="{% url 'post_likes' post.id %}"><img style="width: 40px;"
-                        src="{% static 'images/like.png' %}" alt="Unlike"></a>
+                    </svg>
+                    </a>
+                    </div>
+
+                    <div id="ltbox">
+                        {% if profile in post.likes.all %}
+                        <div style="display: flex; margin: 0 auto; max-width: 200px;">
+                            <p>{{ post.likes.count }}  </p> <a href="{% url 'post_likes' post.id %}"><svg xmlns="http://www.w3.org/2000/svg" height="35px" viewBox="0 -960 960 960" width="35px" fill="black"><path d="M360-240h220q17 0 31.5-8.5T632-272l84-196q2-5 3-10t1-10v-32q0-17-11.5-28.5T680-560H496l24-136q2-10-1-19t-10-16l-29-29-184 200q-8 8-12 18t-4 22v200q0 33 23.5 56.5T360-240ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg></a>
+                        </div>
+                        {% else %}
+                        <div style="display: flex; margin: 0 auto; max-width: 200px;">
+                            <p>{{ post.likes.count }} </p> <a href="{% url 'post_likes' post.id %}"><svg xmlns="http://www.w3.org/2000/svg" height="35px" viewBox="0 -960 960 960" width="35px" fill="gray"><path d="M360-240h220q17 0 31.5-8.5T632-272l84-196q2-5 3-10t1-10v-32q0-17-11.5-28.5T680-560H496l24-136q2-10-1-19t-10-16l-29-29-184 200q-8 8-12 18t-4 22v200q0 33 23.5 56.5T360-240ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg></a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <br>
             </div>
-            {% else %}
-            <div style="display: flex; margin: 0 auto; max-width: 200px;">
-                <p>{{ post.likes.count }} </p> <a href="{% url 'post_likes' post.id %}"><img style="width: 40px;"
-                        src="{% static 'images/unlike.png' %}" alt="Like"></a>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-    {% if post.image %}
-    <img id="img" src="{{ post.image.url }}">
-    {% endif %}
-    <br><br>
-    <hr><br><br>
-    {% endfor %}
+            <br>
+        {% endfor %}
     {% else %}
     <div>
         <p>You didn't upload any post yet.</p>
