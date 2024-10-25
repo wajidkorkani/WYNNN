@@ -76,6 +76,8 @@
               {% if user.is_authenticated %}
                 {% if profile.image %}
                   <img id="profileNavImage" src="{{ profile.image.url }}" id="profileNavImage" alt="Profile Image"  data-bs-toggle="tooltip" data-bs-title="My profile">
+                {% else %}
+                  <img id="profileNavImage" src="{% static 'images/profile_image.png' %}" id="profileNavImage" alt="Profile"  data-bs-toggle="tooltip" data-bs-title="My profile">
                 {% endif %}
               {% endif %}
             </a>
