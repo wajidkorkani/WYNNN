@@ -53,6 +53,8 @@
 {% block body %}
     <div id="mainContainer">
         <form id="container" method="post" enctype="multipart/form-data">
+            <p>Please fill this form to create your profile.</p>
+            <br><hr><br>
             {% csrf_token %}
             {{ form.image }}
             <br>
