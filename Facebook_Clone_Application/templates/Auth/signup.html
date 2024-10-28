@@ -71,12 +71,19 @@
 <div class="container">
   <form method="POST" class="signup-form">
     {% csrf_token %}
+    {% if error %}
+      <p>{{ error }}</p>
+    {% endif %}
     <input type="text" name="username" placeholder="Username">
     <br>
     <input type="text" name="first_name" placeholder="First Name">
     <br>
     <input type="text" name="last_name" placeholder="Last name">
     <br>
+    {% if password_error %}
+      <p>{{ password_error }}</p>
+      <br>
+    {% endif %}
     <input type="password" name="password1" id="password" placeholder="Password">
     <br>
     <input type="password" name="password2" id="password2" placeholder="Confirm password">
