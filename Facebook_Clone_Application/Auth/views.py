@@ -56,7 +56,7 @@ def login(request):
             login_user(request, user)
             return redirect('/home/')
         else:
-            return redirect('/')
+            return render(request, "Auth/index.html", {'error_message': 'Invalid username or password'})
     template = 'Auth/index.html'
     return render(request, template)
 
