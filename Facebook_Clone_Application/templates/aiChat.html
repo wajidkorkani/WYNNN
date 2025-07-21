@@ -1,23 +1,26 @@
 {% extends 'base.html' %}
+{% load static %} {# Essential for loading your static files like the GIF #}
+
 {% block head %}
 <title>AI</title>
 
 <style>
-    #botDiv{
+    /* General chat layout and styling */
+    #botDiv {
         margin: 0 auto;
         display: flex;
         justify-content: center;
         align-items: center;
     }
-    #bot{
+    #bot {
         margin: 0 auto;
     }
-    h1{
+    h1 {
         text-align: center;
         font-weight: bolder;
         margin-top: 13%;
     }
-    #messageForm{
+    #messageForm {
         width: 80%;
         margin: 0 auto;
         padding: 20px;
@@ -26,8 +29,7 @@
         right: 0;
         position: fixed;
     }
-
-    #pDiv{
+    #pDiv {
         margin: 0 auto;
         align-self: last baseline;
         width: 80%;
@@ -35,8 +37,7 @@
         align-items: center;
         align-content: center;
     }
-
-    #messageInput{
+    #messageInput {
         width: 86%;
         height: 50px;
         border-top-left-radius: 20px;
@@ -47,18 +48,15 @@
         border-color: grey;
         border-width: 1px;
     }
-
-    #messageInput:focus{
+    #messageInput:focus {
         outline: none;
         border-color: black;
     }
-
-    #messageInput:hover{
+    #messageInput:hover {
         outline: none;
         border-color: black;
     }
-
-    #messageBtn{
+    #messageBtn {
         width: 60px;
         height: 50px;
         border-top-right-radius: 20px;
@@ -71,31 +69,21 @@
         background-color: white;
         color: black;
     }
-
-    /* #messageBtn:focus{
-        outline: none;
-        border-color: black;
-        background-color: lightgray;
-    }
-
-    #messageBtn:hover{
-        outline: none;
-        border-color: black;
-        background-color: lightgray;
-    } */
-
-    #textDiv{
+    #textDiv {
         text-align: center;
-        margin-left: 50%;
+        margin-left: 50%; /* Adjusted for user messages */
         background-color: rgb(250, 246, 195);
         border-radius: 20px;
         padding: 30px;
         margin-bottom: 40px;
+        /* Ensure dynamic messages are styled similarly */
+        width: fit-content; /* Adjust width based on content */
+        max-width: 45%; /* Limit width to avoid stretching too much */
+        word-wrap: break-word; /* Break long words */
     }
-
-    #textDivAns{
+    #textDivAns {
         text-align: center;
-        margin-right: 20%;
+        margin-right: 20%; /* Adjusted for bot messages */
         background-color: white;
         border-radius: 20px;
         display: flex;
@@ -104,71 +92,241 @@
         padding: 20px;
         margin-bottom: 60px;
         width: auto;
+        /* Ensure dynamic messages are styled similarly */
+        width: fit-content; /* Adjust width based on content */
+        max-width: 45%; /* Limit width to avoid stretching too much */
+        word-wrap: break-word; /* Break long words */
     }
-
-    #ans{
+    #ans {
         text-align: center;
         padding: 20px;
         width: 90%;
     }
-
-    #profileImage{
+    #profileImage {
         width: 50px;
         height: 50px;
         border-radius: 100%;
         margin-right: 90%;
         margin-bottom: 20px;
     }
-
-    #inputArrow{
+    #inputArrow {
         border: 1px gray;
         fill: gray;
     }
-
-    #inputArrow:hover{
+    #inputArrow:hover {
+        border: 1px black;
+        fill: black;
+    }
+    #inputArrow:focus {
         border: 1px black;
         fill: black;
     }
 
-    #inputArrow:focus{
-        border: 1px black;
-        fill: black;
+    /* Loading Spinner Styling */
+    #loadingSpinner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed; /* Covers the entire screen */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent overlay */
+        z-index: 9999; /* Ensures it's on top of other content */
+        opacity: 0; /* Initially hidden */
+        visibility: hidden;
+        transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; /* Smooth fade effect */
     }
 
+    #loadingSpinner.loading-visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    #loadingSpinner img {
+        width: 60px; /* Adjusted size for better visibility */
+        height: 60px;
+    }
+
+    /* Container for dynamic chat messages to ensure scrollability */
+    #chatContainer {
+        padding-top: 20px; /* Space from navbar */
+        padding-bottom: 120px; /* Space for the fixed input form */
+        max-height: calc(100vh - 200px); /* Adjust based on your header/footer/input size */
+        overflow-y: auto; /* Enable scrolling for chat messages */
+        width: 80%; /* Match form width */
+        margin: 0 auto;
+    }
 </style>
-
 {% endblock %}
+
 {% block body %}
 {% include "navbar.html" %}
 <br>
-{% if chatData %}
-    {% for chat in chatData %}
-        {% if chat.question %}
-            <div id="textDiv">
-                {% if chat.user.image %}
-                    <img id="profileImage" src="{{ chat.user.image.url }}" alt="user's profile image">
-                {% endif %}
-                <br>
-                <p>{{ chat.question }}</p>
-            </div>
-        {% endif %}
-        {% if chat.answer %}
-            <div id="textDivAns">
-                <p id="ans">{{ chat.get_linked_text|safe }}</p>
-            </div>
-        {% endif %}
 
-        <br>
-    {% endfor %}
-{% else %}
-    <h1><svg xmlns="http://www.w3.org/2000/svg" id="bot" height="98px" viewBox="0 -960 960 960" width="98px" fill="black"><path d="M147-376q-45 0-76-31.21T40-483q0-44.58 31.21-75.79Q102.42-590 147-590v-123q0-24 18-42t42-18h166q0-45 31.21-76T480-880q44.58 0 75.79 31.21Q587-817.58 587-773h166q24 0 42 18t18 42v123q45 0 76 31.21T920-483q0 44.58-31.21 75.79Q857.58-376 813-376v196q0 24-18 42t-42 18H207q-24 0-42-18t-18-42v-196Zm196.24-100q16.76 0 28.26-11.74 11.5-11.73 11.5-28.5 0-16.76-11.74-28.26-11.73-11.5-28.5-11.5-16.76 0-28.26 11.74-11.5 11.73-11.5 28.5 0 16.76 11.74 28.26 11.73 11.5 28.5 11.5Zm274 0q16.76 0 28.26-11.74 11.5-11.73 11.5-28.5 0-16.76-11.74-28.26-11.73-11.5-28.5-11.5-16.76 0-28.26 11.74-11.5 11.73-11.5 28.5 0 16.76 11.74 28.26 11.73 11.5 28.5 11.5ZM312-285h336v-60H312v60ZM207-180h546v-533H207v533Zm273-267Z"/></svg> Hello {{ request.user.first_name}}, How can I help you?</h1>
-{% endif %}
-<br>
-<form method="POST" action="chatWithAI" id="messageForm">
+<div id="chatContainer">
+    <!-- {# Initial chat messages rendered by Django on page load #} -->
+    {% if chatData %}
+        {% for chat in chatData %}
+            {% if chat.question %}
+                <div id="textDiv">
+                    {% if chat.user.image %}
+                        <img id="profileImage" src="{{ chat.user.image.url }}" alt="user's profile image">
+                    {% endif %}
+                    <br>
+                    <p>{{ chat.question }}</p>
+                </div>
+            {% endif %}
+            {% if chat.answer %}
+                <div id="textDivAns">
+                    <p id="ans">{{ chat.get_linked_text|safe }}</p>
+                </div>
+            {% endif %}
+            <br>
+        {% endfor %}
+    {% else %}
+        <h1 id="welcomeMessage"><svg xmlns="http://www.w3.org/2000/svg" id="bot" height="98px" viewBox="0 -960 960 960" width="98px" fill="black"><path d="M147-376q-45 0-76-31.21T40-483q0-44.58 31.21-75.79Q102.42-590 147-590v-123q0-24 18-42t42-18h166q0-45 31.21-76T480-880q44.58 0 75.79 31.21Q587-817.58 587-773h166q24 0 42 18t18 42v123q45 0 76 31.21T920-483q0 44.58-31.21 75.79Q857.58-376 813-376v196q0 24-18 42t-42 18H207q-24 0-42-18t-18-42v-196Zm196.24-100q16.76 0 28.26-11.74 11.5-11.73 11.5-28.5 0-16.76-11.74-28.26-11.73-11.5-28.5-11.5-16.76 0-28.26 11.74-11.5 11.73-11.5 28.5 0 16.76 11.74 28.26 11.73 11.5 28.5 11.5Zm274 0q16.76 0 28.26-11.74 11.5-11.73 11.5-28.5 0-16.76-11.74-28.26-11.73-11.5-28.5-11.5-16.76 0-28.26 11.74-11.5 11.73-11.5 28.5 0 16.76 11.74 28.26 11.73 11.5 28.5 11.5ZM312-285h336v-60H312v60ZM207-180h546v-533H207v533Zm273-267Z"/></svg> Hello {{ request.user.first_name}}, How can I help you?</h1>
+    {% endif %}
+</div>
+
+<form method="POST" action="{% url 'chatWithAI' %}" id="messageForm" class="myForm">
     {% csrf_token %}
     <div id="pDiv">
         <input id="messageInput" name="ask" type="text" placeholder="Ask anything!" required>
-        <button type="submit" id="messageBtn"> <svg xmlns="http://www.w3.org/2000/svg" id="inputArrow" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e8eaed"><path d="M120-160v-640l760 320-760 320Zm60-93 544-227-544-230v168l242 62-242 60v167Zm0 0v-457 457Z"/></svg> </button>
+        <button type="submit" id="messageBtn" onclick="ClickHandler">
+            <svg xmlns="http://www.w3.org/2000/svg" id="inputArrow" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e8eaed"><path d="M120-160v-640l760 320-760 320Zm60-93 544-227-544-230v168l242 62-242 60v167Zm0 0v-457 457Z"/></svg>
+        </button>
     </div>
 </form>
+
+<!-- {# The loading spinner element, placed outside the form for full-screen overlay #} -->
+<div id="loadingSpinner" class="loading-hidden">
+    <!-- {# Make sure you have a `static` directory in your app or project root -->
+       <!-- and place `loading.gif` inside it (e.g., `static/images/loading.gif`) #} -->
+    <img src="{% static 'images/loading.gif' %}" class="loading" alt="Loading...">
+    
+</div>
+
+<script>
+    let btn = document.querySelector("button")
+    let loading = document.getElementsByClassName("loading")
+    function ClickHandler() {
+        btn.style.display = "none";
+        loading.style.display = "solid";
+    }
+    // document.addEventListener('DOMContentLoaded', () => {
+    //     const myForm = document.getElementById('messageForm');
+    //     const messageInput = document.getElementById('messageInput');
+    //     const loadingSpinner = document.getElementById('loadingSpinner');
+    //     const chatContainer = document.getElementById('chatContainer');
+    //     const welcomeMessage = document.getElementById('welcomeMessage'); // Get the welcome message element
+
+    //     // Function to show the loading spinner
+    //     function showLoading() {
+    //         loadingSpinner.classList.add('loading-visible');
+    //     }
+
+    //     // Function to hide the loading spinner
+    //     function hideLoading() {
+    //         loadingSpinner.classList.remove('loading-visible');
+    //     }
+
+    //     // Function to append a user message to the chat
+    //     function appendUserMessage(message) {
+    //         // Remove the welcome message if it exists
+    //         if (welcomeMessage) {
+    //             welcomeMessage.remove();
+    //         }
+
+    //         const userMessageDiv = document.createElement('div');
+    //         userMessageDiv.id = 'textDiv';
+    //         // You might dynamically add the user's profile image here if available
+    //         // Example:
+    //         // const userImage = document.createElement('img');
+    //         // userImage.id = 'profileImage';
+    //         // userImage.src = "{{ request.user.profile.image.url }}"; // Adjust to your user image path
+    //         // userImage.alt = "user's profile image";
+    //         // userMessageDiv.appendChild(userImage);
+    //         // userMessageDiv.appendChild(document.createElement('br'));
+
+    //         const messageP = document.createElement('p');
+    //         messageP.textContent = message; // Use textContent for safety
+    //         userMessageDiv.appendChild(messageP);
+
+    //         chatContainer.appendChild(userMessageDiv);
+    //         chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to bottom
+    //     }
+
+    //     // Function to append the bot's answer to the chat
+    //     function appendBotAnswer(answer) {
+    //         // Remove the welcome message if it exists
+    //         if (welcomeMessage) {
+    //             welcomeMessage.remove();
+    //         }
+
+    //         const botAnswerDiv = document.createElement('div');
+    //         botAnswerDiv.id = 'textDivAns';
+    //         const answerP = document.createElement('p');
+    //         answerP.id = 'ans';
+    //         answerP.innerHTML = answer; // Use innerHTML if your answer contains HTML (like links)
+    //         botAnswerDiv.appendChild(answerP);
+
+            // chatContainer.appendChild(botAnswerDiv);
+            // chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to bottom
+        // }
+
+        // // Handle form submission
+        // myForm.addEventListener('submit', async (event) => {
+        //     event.preventDefault(); // Crucial: Prevent default form submission (page reload)
+
+        //     const userQuestion = messageInput.value.trim();
+        //     if (!userQuestion) { // Don't send empty messages
+        //         return;
+        //     }
+
+        //     appendUserMessage(userQuestion); // Display user's message immediately
+        //     messageInput.value = ''; // Clear the input field
+
+        //     showLoading(); // Show the loading spinner
+
+        //     try {
+        //         // Get the CSRF token from the form
+        //         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        //         // Send the user's question to your Django API endpoint
+        //         const response = await fetch(myForm.action, {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //                 'X-CSRFToken': csrftoken, // Include CSRF token
+        //             },
+        //             body: JSON.stringify({ ask: userQuestion }), // Send data as JSON
+        //         });
+
+        //         if (!response.ok) {
+        //             // Handle non-2xx HTTP responses (e.g., 400, 500)
+        //             const errorData = await response.json();
+        //             throw new Error(`HTTP error! Status: ${response.status}, Message: ${errorData.error || 'Unknown error'}`);
+        //         }
+
+        //         const data = await response.json();
+        //         console.log('API response:', data);
+
+        //         // Assuming your Django view returns the answer in a 'answer' field
+        //         if (data.answer) {
+        //             appendBotAnswer(data.answer); // Display the bot's answer
+        //         } else {
+        //             appendBotAnswer("Sorry, I couldn't get a response from the AI.");
+        //         }
+
+        //     } catch (error) {
+        //         console.error('Submission error:', error);
+        //         appendBotAnswer(`There was an error communicating with the AI: ${error.message}. Please try again.`);
+        //     } finally {
+        //         hideLoading(); // Always hide the spinner when the request completes (success or failure)
+        //     }
+        // });
+    // });
+</script>
 {% endblock %}
