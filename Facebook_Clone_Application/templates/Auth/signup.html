@@ -94,6 +94,9 @@
       <a id="btn" href="{% url 'login' %}" class="btn btn-outline-dark">Login</a>
       <button id="btn" type="submit" class="btn btn-outline-dark">Sign Up</button>
     </div>
+    {% if error_message %}
+      <p>{{ error_message }}</p>
+    {% endif %}
   </form>
 </div>
 
