@@ -25,6 +25,8 @@ def Registration(request):
             request.session['signup_lname'] = form.cleaned_data['last_name']
             request.session['signup_password'] = form.cleaned_data['password1']
             return redirect('verify_otp')
+        else:
+            return render(request, 'Auth/signup.html', {'form': form, 'error_message': 'Please enter strong password'})
     else:
         form = RegistrationForm()
     template = 'Auth/signup.html'
