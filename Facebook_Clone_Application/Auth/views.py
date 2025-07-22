@@ -11,6 +11,13 @@ def generate_otp():
 def Registration(request):
     if request.method == "POST":
         form = RegistrationForm(request.POST)
+        username = request.POST.get('username')
+        if get_user_model().objects.filter(username=username).exists():
+            return render(request, 'Auth/signup.html', {'form': form, 'error_message': 'Username already exists'})
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        if password1 != password2:
+            return render(request, 'Auth/signup.html', {'form': form, 'error_message': 'Passwords do not match'})
         if form.is_valid():
             request.session['signup_otp'] = generate_otp()
             request.session['signup_username'] = form.cleaned_data['username']
